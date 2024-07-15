@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
-import { routerStates } from './app.routing';
+import { HomeComponent } from './home/home.component';
 import { UIRouterModule } from '@uirouter/angular';
+import { NavbarComponent } from './home/navbar/navbar.component';
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
 	templateUrl: './app.component.html',
-	imports: [
-		UIRouterModule,
-	],
 	styleUrl: './app.component.css',
+	imports: [HomeComponent, UIRouterModule, NavbarComponent],
 })
 export class AppComponent {
-  title = 'angular-capstone';
-	protected readonly routerStates = routerStates;
+	title = 'angular-capstone';
 }
