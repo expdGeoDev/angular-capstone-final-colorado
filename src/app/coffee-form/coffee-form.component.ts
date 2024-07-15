@@ -11,18 +11,24 @@ import {NgIf} from '@angular/common';
 })
 export class CoffeeFormComponent {
 	grindValue = 1;
+	coffeeForm!: FormGroup;
 	constructor(private fb: FormBuilder) {
 
 	}
 
 	ngOnInit(): void {
 		this.coffeeForm = this.fb.group({
+			coffeeId: [1],
+			active: [true],
 			roaster: ['', Validators.required],
+			variety: [null],
+			size: [8],
+			roast: ['Light', Validators.required],
 			groundOrBeans: ['Bean'],
-			roast: ['Light'],
+			grind: [1],
+			origin: [null],
 			singleOrigin: [false],
-			grindLevel: [1],
-			flavorNotes: [''],
+			tastingNotes: ['']
 		});
 	}
 
@@ -56,7 +62,7 @@ export class CoffeeFormComponent {
 	}
 
 	onSubmit(){
-		console.log('submitted')
+		console.log(this.coffeeForm.value)
 	}
-	coffeeForm!: FormGroup;
+
 }
