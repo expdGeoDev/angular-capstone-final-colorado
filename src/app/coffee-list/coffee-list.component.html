@@ -1,1 +1,39 @@
-<p>coffee-list works!</p>
+<div class="m-4">
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th scope="col">Id</th>
+			<th scope="col">Active</th>
+			<th scope="col">Roaster</th>
+			<th scope="col">Roast</th>
+			<th scope="col">Format</th>
+			<th scope="col">SingleOrigin</th>
+
+		</tr>
+
+		</thead>
+		<tbody>
+		@for (coffee of list; track coffee; ) {
+
+    <tr>
+      <td scope="row">{{coffee.id}}</td>
+      <td scope="row">{{coffee.active}}</td>
+      <td scope="row">{{coffee.roaster}}</td>
+      <td scope="row">{{coffee.roast}}</td>
+      <td scope="row">{{coffee.format}}</td>
+      <td scope="row">{{coffee.singleOrigin}}</td>
+
+
+    </tr>
+		}
+		@empty {
+		<li>
+				<div>
+						<h1>coffee data is loading</h1>
+				</div>
+		</li>
+		}
+		</tbody>
+	</table>
+</div>
+
