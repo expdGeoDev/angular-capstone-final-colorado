@@ -14,4 +14,12 @@ export class HttpService {
 	getAllCoffee(): Observable<CoffeeModel[]> {
 		return this.client.get<CoffeeModel[]>(`${this.baseUrl}/coffees`);
 	}
+
+	getCoffeeById(id: number): Observable<CoffeeModel[]> {
+		return this.client.get<CoffeeModel[]>(`${this.baseUrl}/coffees/${id}`);
+	}
+
+	postCoffee(formData: CoffeeModel): Observable<CoffeeModel[]> {
+		return this.client.post<CoffeeModel[]>(`${this.baseUrl}/coffee`, formData);
+	}
 }
