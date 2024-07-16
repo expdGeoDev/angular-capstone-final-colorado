@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CoffeeModel} from '../model/CoffeeModel';
+import { CoffeeModel } from '../model/CoffeeModel';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class HttpService {
 	baseUrl = 'http://localhost:8100';

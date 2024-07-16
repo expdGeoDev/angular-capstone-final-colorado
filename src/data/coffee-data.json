@@ -2,7 +2,7 @@
 	"coffees": [
 		{
 			"id": 1,
-			"active": true,
+			"active": false,
 			"roaster": "Tim Horton's",
 			"variety": null,
 			"size": 14,
@@ -15,7 +15,7 @@
 		},
 		{
 			"id": 2,
-			"active": true,
+			"active": false,
 			"roaster": "Tim Horton's",
 			"variety": null,
 			"size": 20,
@@ -28,7 +28,7 @@
 		},
 		{
 			"id": 3,
-			"active": true,
+			"active": false,
 			"roaster": "Paper Plane",
 			"variety": null,
 			"size": 8,
@@ -41,7 +41,7 @@
 		},
 		{
 			"id": 4,
-			"active": true,
+			"active": false,
 			"roaster": "Paper Plane",
 			"variety": null,
 			"size": 14,
@@ -54,7 +54,7 @@
 		},
 		{
 			"id": 5,
-			"active": true,
+			"active": false,
 			"roaster": "Eight O'Clock",
 			"variety": null,
 			"size": 24,
@@ -67,7 +67,7 @@
 		},
 		{
 			"id": 6,
-			"active": true,
+			"active": false,
 			"roaster": "Dunkin",
 			"variety": null,
 			"size": 12,
@@ -80,7 +80,7 @@
 		},
 		{
 			"id": 7,
-			"active": true,
+			"active": false,
 			"roaster": "Pilon",
 			"variety": null,
 			"size": 8,
@@ -93,7 +93,7 @@
 		},
 		{
 			"id": 8,
-			"active": true,
+			"active": false,
 			"roaster": "Counter Culture",
 			"variety": null,
 			"size": 16,
@@ -106,7 +106,7 @@
 		},
 		{
 			"id": 9,
-			"active": true,
+			"active": false,
 			"roaster": "Stumptown",
 			"variety": null,
 			"size": 8,
@@ -119,7 +119,7 @@
 		},
 		{
 			"id": 10,
-			"active": true,
+			"active": false,
 			"roaster": "Paper Plane",
 			"variety": null,
 			"size": 16,
