@@ -10,8 +10,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { HttpService } from '../service/http.service';
 import { CoffeeModel, RoastType, SizeType } from '../model/CoffeeModel';
 import { isNumber, values } from '@uirouter/angular';
-
-//const roastKeys: string[] = [];
+import { ToastrService} from 'ngx-toastr';
 
 @Component({
 	selector: 'app-coffee-form',
@@ -28,14 +27,14 @@ export class CoffeeFormComponent {
 
 	constructor(
 		private fb: FormBuilder,
-		private coffeeService: HttpService
+		private coffeeService: HttpService,
+		private toaster: ToastrService
 	) {
 		this.roastType = Object.values(RoastType);
 		this.sizeType = Object.values(SizeType).filter((value) => isNumber(value));
 	}
 
 	ngOnInit(): void {
-		console.log(this.sizeType);
 		this.coffeeForm = this.fb.group({
 			coffeeId: [1],
 			active: [true],
@@ -59,14 +58,24 @@ export class CoffeeFormComponent {
 	getGrindLevel(value: number): string {
 		switch (value) {
 			case 1:
-				return 'Coarse';
+				return 'Extra Coarse';
 			case 2:
-				return 'Medium-Coarse';
+				return 'Coarse';
 			case 3:
-				return 'Medium';
+				return 'Medium-Coarse';
 			case 4:
-				return 'Fine';
+				return 'Less Coarse More Medium';
 			case 5:
+				return 'Medium';
+			case 6:
+				return 'Refined Medium';
+			case 7:
+				return 'More Refined Medium';
+			case 8:
+				return 'Kinda of Fine';
+			case 9:
+				return 'Fine';
+			case 10:
 				return 'Extra Fine';
 			default:
 				return 'Unknown';
@@ -83,5 +92,6 @@ export class CoffeeFormComponent {
 
 	onSubmit() {
 		console.log(this.coffeeForm.value);
+		this.toaster.warning("Hello", "Warning");
 	}
 }
