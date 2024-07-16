@@ -5,7 +5,7 @@
 		<div class="form-group p-3">
 			<label class="text-primary" for="coffeeId">Coffee Id:</label>
 			<input type="text" class="form-control d-block" id="coffeeId" formControlName="coffeeId"
-						 aria-describedby="coffeeIdHelp" placeholder="1" />
+				aria-describedby="coffeeIdHelp" placeholder="1" />
 		</div>
 
 		<!-- Is Active -->
@@ -20,11 +20,13 @@
 		<div class="form-group p-3">
 			<label class="text-primary" for="roaster">Roaster*:</label>
 			<input type="text" class="form-control d-block" id="roaster" formControlName="roaster"
-						 aria-describedby="coffeeRoasterHelp" placeholder="Enter Coffee Roaster" />
-			<div *ngIf="roaster?.invalid && (roaster?.dirty || roaster?.touched)" class="invalid-feedback d-block">Brand is Required
+				aria-describedby="coffeeRoasterHelp" placeholder="Enter Coffee Roaster" />
+			<div *ngIf="roaster?.invalid && (roaster?.dirty || roaster?.touched)" class="invalid-feedback d-block">Brand
+				is Required
 			</div>
 
-			<div class="valid-feedback d-block" *ngIf="roaster?.valid && (roaster?.dirty|| roaster?.touched)">This field is valid
+			<div class="valid-feedback d-block" *ngIf="roaster?.valid && (roaster?.dirty|| roaster?.touched)">This field
+				is valid
 			</div>
 		</div>
 
@@ -32,25 +34,21 @@
 		<div class="form-group p-3">
 			<label class="text-primary" for="variety">Variety:</label>
 			<input type="text" class="form-control d-block" id="variety" formControlName="variety"
-						 aria-describedby="coffeeVarietyHelp" placeholder="Enter Variety" />
+				aria-describedby="coffeeVarietyHelp" placeholder="Enter Variety" />
 		</div>
 
 		<!-- Size -->
 		<div class="form-group p-3">
 			<label class="text-primary" for="size">Size:</label>
 			<input type="text" class="form-control d-block" id="size" formControlName="size"
-						 aria-describedby="coffeeSizeHelp" placeholder="Enter Size" />
+				aria-describedby="coffeeSizeHelp" placeholder="Enter Size" />
 		</div>
 
 		<!-- Roast Type -->
-		<!-- TODO: Dynamically update option values -->
 		<div class="form-group text-primary p-3">
 			<label for="roast">Select Roast Type*:</label>
 			<select class="form-control" id="roast" formControlName="roast">
-				<option value="Light" selected>Light</option>
-				<option value="Medium">Medium</option>
-				<option value="Medium-Dark">Medium-Dark</option>
-				<option value="Dark">Dark</option>
+				<option *ngFor="let item of roastType" [value]="item">{{item}}</option>
 			</select>
 		</div>
 
@@ -59,14 +57,15 @@
 		<div class="form-group p-3">
 			<label class="text-primary">Coffee Format: </label>
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeeGround" value="Ground" />
+				<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeeGround"
+					value="Ground" />
 				<label class="form-check-label" for="coffeeGround">
 					Ground
 				</label>
 			</div>
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeeBean" value="Bean"
-							 checked />
+				<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeeBean"
+					value="Bean" checked />
 				<label class="form-check-label" for="coffeeBean">
 					Bean
 				</label>
@@ -78,19 +77,19 @@
 		<div class="form-group p-3">
 			<label class="text-primary" for="grindRange">Grind Level: <span>{{
 					getGrindLevel(grindValue)
-				}}</span></label>
-			<input type="range" class="form-range" min="1" max="5" step="1" id="grindRange" value=1 [(ngModel)]="grindValue"
-
-						 formControlName="grind" />
+					}}</span></label>
+			<input type="range" class="form-range" min="1" max="5" step="1" id="grindRange" value=1
+				[(ngModel)]="grindValue" formControlName="grind" />
 		</div>
 
 		<!-- Single Origin Toggle -->
 		<div class="form-group p-3">
 			<label class="form-check-label text-primary" for="singleOriginSwitch">Single Origin: <span>{{
 					getSingleOrigin(coffeeForm.get('singleOrigin')?.value)
-				}}</span></label>
+					}}</span></label>
 			<div class="form-check form-switch ">
-				<input class="form-check-input" type="checkbox" id="singleOriginSwitch" formControlName="singleOrigin" />
+				<input class="form-check-input" type="checkbox" id="singleOriginSwitch"
+					formControlName="singleOrigin" />
 			</div>
 		</div>
 
@@ -99,14 +98,14 @@
 		<div class="form-group p-3">
 			<label class="text-primary" for="singleOrigin">Origin:</label>
 			<input type="text" class="form-control d-block" id="singleOrigin" formControlName="origin"
-						 aria-describedby="coffeeSingleOriginHelp" placeholder="Enter origin" />
+				aria-describedby="coffeeSingleOriginHelp" placeholder="Enter origin" />
 		</div>
 
 		<!-- Tasting Notes -->
 		<div class="form-group p-3">
 			<label class="text-primary" for="tastingNotes">Tasting Notes:</label>
 			<textarea class="form-control" id="tastingNotes" rows="3" formControlName="tastingNotes"
-								placeholder="Enter tasting notes..."></textarea>
+				placeholder="Enter tasting notes..."></textarea>
 		</div>
 
 		<!-- Buttons -->
