@@ -43,6 +43,7 @@
 		</div>
 
 		<!-- Roast Type -->
+		<!-- TODO: Dynamically update option values -->
 		<div class="form-group text-primary p-3">
 			<label for="roast">Select Roast Type*:</label>
 			<select class="form-control" id="roast" formControlName="roast">
@@ -54,7 +55,7 @@
 		</div>
 
 		<!-- Coffee Format -->
-<!--		TODO: need to evaluate additional values, radio buttons vs dropdown-->
+		<!--		TODO: need to evaluate additional values, radio buttons vs dropdown-->
 		<div class="form-group p-3">
 			<label class="text-primary">Coffee Format: </label>
 			<div class="form-check form-check-inline">
@@ -73,6 +74,7 @@
 		</div>
 
 		<!-- Grind Level -->
+		<!-- TODO: Grind value increment to 10 update vocab -->
 		<div class="form-group p-3">
 			<label class="text-primary" for="grindRange">Grind Level: <span>{{
 					getGrindLevel(grindValue)
@@ -93,17 +95,11 @@
 		</div>
 
 		<!-- Single Origin -->
+		<!-- TODO: Interface declared as a list of strings -->
 		<div class="form-group p-3">
 			<label class="text-primary" for="singleOrigin">Origin:</label>
 			<input type="text" class="form-control d-block" id="singleOrigin" formControlName="origin"
 						 aria-describedby="coffeeSingleOriginHelp" placeholder="Enter origin" />
-		</div>
-
-		<!-- Multiple Origin -->
-		<div class="form-group p-3">
-			<label class="text-primary" for="multipleOrigin">Origins:</label>
-			<textarea class="form-control" id="multipleOrigin" rows="3" formControlName="origin"
-								placeholder="Enter origins..."></textarea>
 		</div>
 
 		<!-- Tasting Notes -->
@@ -115,8 +111,6 @@
 
 		<!-- Buttons -->
 		<div class="form-group p-3 float-end">
-			<!--    <button type="reset" class="btn btn-danger btn-md me-2" (click)="clearForm()">Reset</button>-->
-
 			<button type="reset" class="btn btn-danger btn-md me-2">Reset</button>
 			<button type="submit" class="btn btn-primary btn-md">Submit</button>
 		</div>
