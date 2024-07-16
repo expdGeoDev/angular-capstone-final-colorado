@@ -1,117 +1,159 @@
 <div class="w-75 p-5 mx-auto border border-3 border-primary rounded clearfix">
 	<form [formGroup]="coffeeForm" (ngSubmit)="onSubmit()">
-		<h1 class="text-center text-primary">Add Coffee To Library</h1>
+		<h1 class="text-center text-primary">Add New Coffee</h1>
+		<!--	Row 1: ID, Roaster -->
+		<div class="row g-3">
+			<div class="col-3">
+				<!-- ID -->
+				<div class="form-group p-2">
+					<label class="text-primary" for="coffeeId">Coffee Id:</label>
+					<input type="text" class="form-control d-block" id="coffeeId" formControlName="coffeeId"
+								 aria-describedby="coffeeIdHelp" placeholder="2" />
+				</div>
+			</div>
+			<div class="col-9">
+				<!-- Roaster -->
+				<div class="form-group p-2">
+					<label class="text-primary" for="roaster">Roaster*:</label>
+					<input type="text" class="form-control d-block" id="roaster" formControlName="roaster"
+								 aria-describedby="coffeeRoasterHelp" placeholder="Enter Coffee Roaster" />
+					<div *ngIf="roaster?.invalid && (roaster?.dirty || roaster?.touched)" class="invalid-feedback d-block">Brand
+						is Required
+					</div>
 
-		<div class="form-group p-3">
-			<label class="text-primary" for="coffeeId">Coffee Id:</label>
-			<input type="text" class="form-control d-block" id="coffeeId" formControlName="coffeeId"
-						 aria-describedby="coffeeIdHelp" placeholder="1" />
-		</div>
-
-		<!-- Is Active -->
-		<div class="form-group p-3">
-			<label class="form-check-label text-primary" for="isActiveSwitch">Active: </label>
-			<div class="form-check form-switch ">
-				<input class="form-check-input" type="checkbox" id="isActiveSwitch" formControlName="active" />
+					<div class="valid-feedback d-block" *ngIf="roaster?.valid && (roaster?.dirty|| roaster?.touched)">This field
+						is valid
+					</div>
+				</div>
 			</div>
 		</div>
 
-		<!-- Roaster -->
-		<div class="form-group p-3">
-			<label class="text-primary" for="roaster">Roaster*:</label>
-			<input type="text" class="form-control d-block" id="roaster" formControlName="roaster"
-						 aria-describedby="coffeeRoasterHelp" placeholder="Enter Coffee Roaster" />
-			<div *ngIf="roaster?.invalid && (roaster?.dirty || roaster?.touched)" class="invalid-feedback d-block">Brand is Required
+		<!-- Row 2: Active, Size, Roast Type -->
+		<div class="row g-3">
+			<div class="col-3">
+				<!-- Is Active -->
+				<div class="form-group p-2">
+					<label class="form-check-label text-primary" for="isActiveSwitch">Active: </label>
+					<div class="form-check form-switch mt-2">
+						<input class="form-check-input" type="checkbox" id="isActiveSwitch" formControlName="active" />
+					</div>
+				</div>
 			</div>
-
-			<div class="valid-feedback d-block" *ngIf="roaster?.valid && (roaster?.dirty|| roaster?.touched)">This field is valid
+			<div class="col-5">
+				<!-- Size -->
+				<div class="form-group p-2">
+					<label class="text-primary" for="size">Size:</label>
+					<select class="form-control" id="size" formControlName="size">
+						<option *ngFor="let item of sizeType" [value]="item">{{ item }}</option>
+					</select>
+				</div>
 			</div>
-		</div>
-
-		<!-- Variety -->
-		<div class="form-group p-3">
-			<label class="text-primary" for="variety">Variety:</label>
-			<input type="text" class="form-control d-block" id="variety" formControlName="variety"
-						 aria-describedby="coffeeVarietyHelp" placeholder="Enter Variety" />
-		</div>
-
-		<!-- Size -->
-		<div class="form-group p-3">
-			<label class="text-primary" for="size">Size:</label>
-			<input type="text" class="form-control d-block" id="size" formControlName="size"
-						 aria-describedby="coffeeSizeHelp" placeholder="Enter Size" />
-		</div>
-
-		<!-- Roast Type -->
-		<!-- TODO: Dynamically update option values -->
-		<div class="form-group text-primary p-3">
-			<label for="roast">Select Roast Type*:</label>
-			<select class="form-control" id="roast" formControlName="roast">
-				<option value="Light" selected>Light</option>
-				<option value="Medium">Medium</option>
-				<option value="Medium-Dark">Medium-Dark</option>
-				<option value="Dark">Dark</option>
-			</select>
-		</div>
-
-		<!-- Coffee Format -->
-		<!--		TODO: need to evaluate additional values, radio buttons vs dropdown-->
-		<div class="form-group p-3">
-			<label class="text-primary">Coffee Format: </label>
-			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeeGround" value="Ground" />
-				<label class="form-check-label" for="coffeeGround">
-					Ground
-				</label>
-			</div>
-			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeeBean" value="Bean"
-							 checked />
-				<label class="form-check-label" for="coffeeBean">
-					Bean
-				</label>
+			<div class="col-4">
+				<!-- Roast Type -->
+				<div class="form-group p-2 text-primary">
+					<label for="roast">Select Roast Type*:</label>
+					<select class="form-control" id="roast" formControlName="roast">
+						<option *ngFor="let item of roastType" [value]="item">{{ item }}</option>
+					</select>
+				</div>
 			</div>
 		</div>
 
-		<!-- Grind Level -->
-		<!-- TODO: Grind value increment to 10 update vocab -->
-		<div class="form-group p-3">
-			<label class="text-primary" for="grindRange">Grind Level: <span>{{
-					getGrindLevel(grindValue)
-				}}</span></label>
-			<input type="range" class="form-range" min="1" max="5" step="1" id="grindRange" value=1 [(ngModel)]="grindValue"
+		<!--	Row 3:	Coffee Format -->
+		<div class="row g-3 ">
+			<div class="col-12">
+				<div class="form-group p-2 d-flex justify-content-between">
+					<label class="text-primary">Coffee Format: </label>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeeGround"
+									 value="Ground" />
+						<label class="form-check-label" for="coffeeGround">
+							Ground
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeeBean"
+									 value="Bean" checked />
+						<label class="form-check-label" for="coffeeBean">
+							Bean
+						</label>
+					</div>
 
-						 formControlName="grind" />
-		</div>
-
-		<!-- Single Origin Toggle -->
-		<div class="form-group p-3">
-			<label class="form-check-label text-primary" for="singleOriginSwitch">Single Origin: <span>{{
-					getSingleOrigin(coffeeForm.get('singleOrigin')?.value)
-				}}</span></label>
-			<div class="form-check form-switch ">
-				<input class="form-check-input" type="checkbox" id="singleOriginSwitch" formControlName="singleOrigin" />
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeePod"
+									 value="K-Pod" checked />
+						<label class="form-check-label" for="coffePod">
+							K-Pod
+						</label>
+					</div>
+				</div>
 			</div>
 		</div>
 
-		<!-- Single Origin -->
-		<!-- TODO: Interface declared as a list of strings -->
-		<div class="form-group p-3">
-			<label class="text-primary" for="singleOrigin">Origin:</label>
-			<input type="text" class="form-control d-block" id="singleOrigin" formControlName="origin"
-						 aria-describedby="coffeeSingleOriginHelp" placeholder="Enter origin" />
+		<!-- Row 4: Grind Level -->
+		<div class="row g-3">
+			<!-- TODO: Grind value increment to 10 update vocab -->
+			<div class="form-group p-3">
+				<label class="text-primary" for="grindRange">Grind Level: <span>{{
+						getGrindLevel(grindValue)
+					}}</span></label>
+				<input type="range" class="form-range" min="1" max="10" step="1" id="grindRange" value=1
+							 [(ngModel)]="grindValue" formControlName="grind" />
+			</div>
 		</div>
 
-		<!-- Tasting Notes -->
-		<div class="form-group p-3">
-			<label class="text-primary" for="tastingNotes">Tasting Notes:</label>
-			<textarea class="form-control" id="tastingNotes" rows="3" formControlName="tastingNotes"
-								placeholder="Enter tasting notes..."></textarea>
+		<!-- Row 5: Origin Flag, Origin Data -->
+		<div class="row g-3">
+			<div class="col-5">
+				<!-- Single Origin Toggle -->
+				<div class="form-group p-3">
+					<label class="form-check-label text-primary" for="singleOriginSwitch">Single Origin: <span>{{
+							getSingleOrigin(coffeeForm.get('singleOrigin')?.value)
+						}}</span></label>
+					<div class="form-check form-switch ">
+						<input class="form-check-input" type="checkbox" id="singleOriginSwitch"
+									 formControlName="singleOrigin" />
+					</div>
+				</div>
+			</div>
+			<div class="col-5">
+				<!-- TODO: Can we use Pill badges here? -->
+				<div class="form-group p-2">
+					<label class="text-primary" for="singleOrigin">Origin:</label>
+					<input type="text" class="form-control d-block" id="singleOrigin" formControlName="origin"
+								 aria-describedby="coffeeSingleOriginHelp" placeholder="Enter origin" />
+				</div>
+			</div>
 		</div>
+
+		<!-- Row 6: Variety Notes -->
+		<div class="row g-3">
+			<div class="col">
+				<!-- Variety -->
+				<div class="form-group p-2">
+					<label class="text-primary" for="variety">Variety:</label>
+					<input type="text" class="form-control d-block" id="variety" formControlName="variety"
+								 aria-describedby="coffeeVarietyHelp" placeholder="Enter Variety" />
+				</div>
+			</div>
+		</div>
+
+		<!-- Row 7: Tasting Notes -->
+		<div class="row g-3">
+			<div class="col">
+				<!-- Tasting Notes -->
+				<div class="form-group p-2">
+					<label class="text-primary" for="tastingNotes">Tasting Notes:</label>
+					<textarea class="form-control" id="tastingNotes" rows="4" formControlName="tastingNotes"
+										placeholder="Enter tasting notes..."></textarea>
+				</div>
+			</div>
+		</div>
+
 
 		<!-- Buttons -->
-		<div class="form-group p-3 float-end">
-			<button type="reset" class="btn btn-danger btn-md me-2">Reset</button>
+		<div class="form-group p-2 float-end">
+			<button type="reset" class="btn btn-danger btn-md me-1">Reset</button>
 			<button type="submit" class="btn btn-primary btn-md">Submit</button>
 		</div>
 	</form>
