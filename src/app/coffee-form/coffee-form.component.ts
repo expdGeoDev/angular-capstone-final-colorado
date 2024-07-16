@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgIf} from '@angular/common';
+import {HttpService} from '../service/http.service';
+import {CoffeeModel} from '../model/CoffeeModel';
 
 @Component({
   selector: 'app-coffee-form',
@@ -12,9 +14,9 @@ import {NgIf} from '@angular/common';
 export class CoffeeFormComponent {
 	grindValue = 1;
 	coffeeForm!: FormGroup;
-	constructor(private fb: FormBuilder) {
+	constructor(private fb: FormBuilder, private coffeeService: HttpService) {}
 
-	}
+
 
 	ngOnInit(): void {
 		this.coffeeForm = this.fb.group({
@@ -36,6 +38,7 @@ export class CoffeeFormComponent {
 		return this.coffeeForm.get('roaster');
 	}
 
+// TODO: Needs to Range up to 10
 	getGrindLevel(value: number): string {
 		switch (value) {
 			case 1:
