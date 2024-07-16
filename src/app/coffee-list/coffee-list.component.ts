@@ -17,7 +17,7 @@ export class CoffeeListComponent implements OnInit {
 	sortOrder = 'asc';
 	sortKey: keyof CoffeeModel = 'id';
 	roast: string = '';
-	limit: number = 10;
+	limit: number = 25;
 	currentPage: number = 1;
 
 	constructor(private coffeeService: HttpService) {}
