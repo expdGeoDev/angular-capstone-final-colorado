@@ -1,6 +1,5 @@
-
-type RoastType = 'blonde' | 'dark' | 'espresso' | 'light' | 'medium' | 'medium-dark'
-type FormatType = 'ground' | 'bean' | 'k-pod'
+type RoastType = 'blonde' | 'dark' | 'espresso' | 'light' | 'medium' | 'medium-dark';
+type FormatType = 'ground' | 'bean' | 'k-pod';
 
 export interface CoffeeModel {
 	id: number;

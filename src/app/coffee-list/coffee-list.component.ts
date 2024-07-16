@@ -1,33 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import {CoffeeModel} from "../model/CoffeeModel";
-import {HttpService} from "../service/http.service";
+import { CoffeeModel } from '../model/CoffeeModel';
+import { HttpService } from '../service/http.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-coffee-list',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './coffee-list.component.html',
-  styleUrl: './coffee-list.component.css'
+	selector: 'app-coffee-list',
+	standalone: true,
+	imports: [CommonModule, FormsModule],
+	templateUrl: './coffee-list.component.html',
+	styleUrl: './coffee-list.component.css',
 })
-export class CoffeeListComponent implements OnInit{
-
-
-
+export class CoffeeListComponent implements OnInit {
 	list: CoffeeModel[] = [];
-	sortedData: CoffeeModel[] =[];
+	sortedData: CoffeeModel[] = [];
 	sortOrder = 'asc';
 	sortKey: keyof CoffeeModel = 'id';
-	constructor( private coffeeService: HttpService) {
-	}
+	roast: string = '';
+	limit: number = 10;
+	currentPage: number = 1;
+
+	constructor(private coffeeService: HttpService) {}
 
 	ngOnInit() {
-
-		  this.coffeeService.getAllCoffee().subscribe( coffeList=> {this.list=coffeList;
+		this.coffeeService.getAllCoffee().subscribe((coffeList) => {
+			this.list = coffeList;
 			this.sortedData = [...this.list];
-			});
-
+		});
 	}
+
+	calculateNumberOfPage(): number {
+		return Math.ceil(this.getFilteredandSortedCoffees().length / this.limit);
+	}
+
+	changePage(page: number): void {
+		if (page >= 1 && page <= this.calculateNumberOfPage()) {
+			this.currentPage = page;
+		}
+	}
+
 	sortTable(key: keyof CoffeeModel) {
 		this.sortKey = key;
 		this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
@@ -61,5 +72,18 @@ export class CoffeeListComponent implements OnInit{
 		return this.sortOrder === 'asc' ? 'bi bi-caret-up-fill' : 'bi bi-caret-down-fill';
 	}
 
+	getPaginatedResult(): CoffeeModel[] {
+		const start = (this.currentPage - 1) * this.limit;
+		const end = this.currentPage * this.limit;
 
+		return this.getFilteredandSortedCoffees().slice(start, end);
+	}
+
+	getFilteredandSortedCoffees(): CoffeeModel[] {
+		return this.roast === ''
+			? this.sortedData.filter((coffee) => coffee.active === true)
+			: this.sortedData
+					.filter((coffee) => coffee.active === true)
+					.filter((coffee) => coffee.roast === this.roast);
+	}
 }

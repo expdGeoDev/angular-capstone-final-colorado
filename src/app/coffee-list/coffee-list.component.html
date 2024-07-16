@@ -1,57 +1,64 @@
+<div class="form-group text-primary p-3">
+	<label for="roast">Select Roast Type*:</label>
+	<select class="form-control" id="roast" [(ngModel)]="roast">
+		<option value="medium">Medium</option>
+		<option value="dark">Dark</option>
+		<option value="darkdddd">Dark</option>
+	</select>
+</div>
+@if(getPaginatedResult().length === 0) {
+<div>
+	<h1>NO DATA</h1>
+</div>
+} @else {
 <div class="w-75 p-5 mx-auto">
 	<table class="table table-striped">
 		<thead>
-		<tr>
-			<th (click)="sortTable('id')" scope="col">Id  <span [ngClass]="getSortClass('id')"></span></th>
-			<th (click)="sortTable('active')" scope="col">Active <span [ngClass]="getSortClass('active')"></span></th>
-			<th (click)="sortTable('roaster')" scope="col">Roaster <span [ngClass]="getSortClass('roaster')"></span></th>
-			<th (click)="sortTable('roast')" scope="col">Roast <span [ngClass]="getSortClass('roast')"></span></th>
-			<th (click)="sortTable('format')" scope="col">Format <span [ngClass]="getSortClass('format')"></span></th>
-			<th (click)="sortTable('singleOrigin')" scope="col">SingleOrigin <span [ngClass]="getSortClass('singleOrigin')"></span></th>
-
-		</tr>
-
+			<tr>
+				<th (click)="sortTable('id')" scope="col">Id <span [ngClass]="getSortClass('id')"></span></th>
+				<th (click)="sortTable('active')" scope="col">Active <span [ngClass]="getSortClass('active')"></span>
+				</th>
+				<th (click)="sortTable('roaster')" scope="col">Roaster <span [ngClass]="getSortClass('roaster')"></span>
+				</th>
+				<th (click)="sortTable('roast')" scope="col">Roast <span [ngClass]="getSortClass('roast')"></span></th>
+				<th (click)="sortTable('format')" scope="col">Format <span [ngClass]="getSortClass('format')"></span>
+				</th>
+				<th (click)="sortTable('singleOrigin')" scope="col">SingleOrigin <span
+						[ngClass]="getSortClass('singleOrigin')"></span></th>
+			</tr>
 		</thead>
+
 		<tbody>
-		@for (coffee of list; track coffee; ) {
-
-    <tr>
-      <td scope="row">{{coffee.id}}</td>
-      <td scope="row">{{coffee.active}}</td>
-      <td scope="row">{{coffee.roaster}}</td>
-      <td scope="row">{{coffee.roast}}</td>
-      <td scope="row">{{coffee.format}}</td>
-      <td scope="row">{{coffee.singleOrigin}}</td>
-
-
-    </tr>
-		}
-		@empty {
-		<li>
-				<div>
-						<h1>coffee data is loading</h1>
-				</div>
-		</li>
-		}
+			@for (coffee of getPaginatedResult(); track coffee; ) {
+			<tr>
+				<td scope="row">{{coffee.id}}</td>
+				<td scope="row">{{coffee.active}}</td>
+				<td scope="row">{{coffee.roaster}}</td>
+				<td scope="row">{{coffee.roast}}</td>
+				<td scope="row">{{coffee.format}}</td>
+				<td scope="row">{{coffee.singleOrigin}}</td>
+			</tr>
+			}
 		</tbody>
 	</table>
 	<ul class="pagination">
 		<li class="page-item">
-			<a class="page-link" href="#" aria-label="Previous">
+			<a class="page-link" aria-label="Previous" (click)="changePage(currentPage - 1)">
 				<span aria-hidden="true">&laquo;</span>
 			</a>
 		</li>
-		<li class="page-item"><a class="page-link" href="#">1</a></li>
-		<li class="page-item"><a class="page-link" href="#">2</a></li>
-		<li class="page-item"><a class="page-link" href="#">3</a></li>
-		<li class="page-item"><a class="page-link" href="#">4</a></li>
-		<li class="page-item"><a class="page-link" href="#">5</a></li>
-		<li class="page-item"><a class="page-link" href="#">6</a></li>
+
+		<li *ngFor="let pageNumber of [].constructor(calculateNumberOfPage()); let i = index" class="page-item">
+			<a class="page-link" (click)="changePage(i+1)">
+				{{i+1}}
+			</a>
+		</li>
+
 		<li class="page-item">
-			<a class="page-link" href="#" aria-label="Next">
+			<a class="page-link" aria-label="Next" (click)="changePage(currentPage + 1)">
 				<span aria-hidden="true">&raquo;</span>
 			</a>
 		</li>
 	</ul>
 </div>
-
+}
