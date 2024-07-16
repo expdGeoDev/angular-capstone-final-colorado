@@ -1,13 +1,13 @@
-<div class="m-4">
+<div class="w-75 p-5 mx-auto">
 	<table class="table table-striped">
 		<thead>
 		<tr>
-			<th scope="col">Id</th>
-			<th scope="col">Active</th>
-			<th scope="col">Roaster</th>
-			<th scope="col">Roast</th>
-			<th scope="col">Format</th>
-			<th scope="col">SingleOrigin</th>
+			<th (click)="sortTable('id')" scope="col">Id  <span [ngClass]="getSortClass('id')"></span></th>
+			<th (click)="sortTable('active')" scope="col">Active <span [ngClass]="getSortClass('active')"></span></th>
+			<th (click)="sortTable('roaster')" scope="col">Roaster <span [ngClass]="getSortClass('roaster')"></span></th>
+			<th (click)="sortTable('roast')" scope="col">Roast <span [ngClass]="getSortClass('roast')"></span></th>
+			<th (click)="sortTable('format')" scope="col">Format <span [ngClass]="getSortClass('format')"></span></th>
+			<th (click)="sortTable('singleOrigin')" scope="col">SingleOrigin <span [ngClass]="getSortClass('singleOrigin')"></span></th>
 
 		</tr>
 
@@ -35,5 +35,23 @@
 		}
 		</tbody>
 	</table>
+	<ul class="pagination">
+		<li class="page-item">
+			<a class="page-link" href="#" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span>
+			</a>
+		</li>
+		<li class="page-item"><a class="page-link" href="#">1</a></li>
+		<li class="page-item"><a class="page-link" href="#">2</a></li>
+		<li class="page-item"><a class="page-link" href="#">3</a></li>
+		<li class="page-item"><a class="page-link" href="#">4</a></li>
+		<li class="page-item"><a class="page-link" href="#">5</a></li>
+		<li class="page-item"><a class="page-link" href="#">6</a></li>
+		<li class="page-item">
+			<a class="page-link" href="#" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+			</a>
+		</li>
+	</ul>
 </div>
 
