@@ -1,10 +1,18 @@
 <div class="form-group text-primary p-3">
-	<label for="roast">Select Roast Type*:</label>
+	<label class="text-primary" for="coffeeSearch">Search Roaster:</label>
+	<input type="text" class="form-control d-block" id="coffeeSearch"
+				 aria-describedby="coffeeSearchHelp" placeholder="Search for roaster..." [(ngModel)]="searchText" />
+</div>
+<div class="form-group text-primary p-3">
+	<label for="roast">Select Roast Type:</label>
 	<select class="form-control" id="roast" [(ngModel)]="roast">
+		<option value="all">All</option>
 		<option value="medium">Medium</option>
 		<option value="dark">Dark</option>
 	</select>
 </div>
+<button (click)="applySearch()" class="btn btn-primary mt-3 float-end me-3">Search</button>
+
 @if(getPaginatedResult().length === 0) {
 <div>
 	<h1>NO DATA</h1>
@@ -26,10 +34,8 @@
 						[ngClass]="getSortClass('singleOrigin')"></span></th>
 			</tr>
 		</thead>
-
 		<tbody>
-			@for (coffee of getPaginatedResult(); track coffee; ) {
-			<tr>
+			<tr *ngFor="let coffee of filteredList | paginate: { itemsPerPage: limit, currentPage: currentPage }">
 				<td scope="row">{{coffee.id}}</td>
 				<td scope="row">{{coffee.active}}</td>
 				<td scope="row">{{coffee.roaster}}</td>
@@ -37,27 +43,10 @@
 				<td scope="row">{{coffee.format}}</td>
 				<td scope="row">{{coffee.singleOrigin}}</td>
 			</tr>
-			}
 		</tbody>
 	</table>
-	<ul class="pagination">
-		<li class="page-item">
-			<a class="page-link" aria-label="Previous" (click)="changePage(currentPage - 1)">
-				<span aria-hidden="true">&laquo;</span>
-			</a>
-		</li>
-
-		<li *ngFor="let pageNumber of [].constructor(calculateNumberOfPage()); let i = index" class="page-item">
-			<a class="page-link" (click)="changePage(i+1)">
-				{{i+1}}
-			</a>
-		</li>
-
-		<li class="page-item">
-			<a class="page-link" aria-label="Next" (click)="changePage(currentPage + 1)">
-				<span aria-hidden="true">&raquo;</span>
-			</a>
-		</li>
-	</ul>
+</div>
+<div class="d-flex justify-content-center flex-grow-1">
+	<pagination-controls class="custom-pagination" (pageChange)="changePage($event)"></pagination-controls>
 </div>
 }
