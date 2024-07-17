@@ -1,4 +1,8 @@
-
+<div class="form-group text-primary p-3">
+	<label class="text-primary" for="coffeeSearch">Search Roaster:</label>
+	<input type="text" class="form-control d-block" id="coffeeSearch"
+				 aria-describedby="coffeeSearchHelp" placeholder="Search for roaster..." [(ngModel)]="searchText" />
+</div>
 <div class="form-group text-primary p-3">
 	<label for="roast">Select Roast Type:</label>
 	<select class="form-control" id="roast" [(ngModel)]="roast">
@@ -7,12 +11,8 @@
 		<option value="dark">Dark</option>
 	</select>
 </div>
-<div class="form-group text-primary p-3">
-	<label class="text-primary" for="coffeeSearch">Search Roaster:</label>
-	<input type="text" class="form-control d-block" id="coffeeSearch"
-				 aria-describedby="coffeeSearchHelp" placeholder="Search for roaster..." [(ngModel)]="searchText" />
-</div>
-<button (click)="applySearch()" class="btn btn-primary mt-3">Search</button>
+<button (click)="applySearch()" class="btn btn-primary mt-3 float-end me-3">Search</button>
+
 @if(getPaginatedResult().length === 0) {
 <div>
 	<h1>NO DATA</h1>
@@ -67,5 +67,14 @@
 			</a>
 		</li>
 	</ul>
+	<div class="form-group text-primary p-3 text-end">
+		<label for="rowsPerPage">Rows per Page: &nbsp;</label>
+		<select class="form-control-sm" id="rowsPerPage" [(ngModel)]="limit">
+			<option value="10">10</option>
+			<option value="25">25</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+		</select>
+	</div>
 </div>
 }

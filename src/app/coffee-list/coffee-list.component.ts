@@ -17,7 +17,7 @@ export class CoffeeListComponent implements OnInit {
 	sortOrder = 'asc';
 	sortKey: keyof CoffeeModel = 'id';
 	roast: string = 'all';
-	limit: number = 25;
+	limit: number = 10;
 	currentPage: number = 1
 	searchText: string = '';
 
