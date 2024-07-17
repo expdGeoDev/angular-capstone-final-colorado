@@ -20,18 +20,21 @@ export class CoffeeListComponent implements OnInit {
 	sortKey: keyof CoffeeModel = 'id';
 	roast: string = 'all';
 	limit: number = 10;
-	currentPage: number = 1
+	currentPage: number = 1;
 	searchText: string = '';
 
-	constructor(private coffeeService: HttpService, private spinner: NgxSpinnerService,) {}
+	constructor(
+		private coffeeService: HttpService,
+		private spinner: NgxSpinnerService
+	) {}
 
 	ngOnInit() {
 		// TODO: NGXSpinner is showing but not creating cool spinner
 		// To Test we are having to comment out 'this.spinner.hide()'
 		this.spinner.show();
 		this.coffeeService.getAllCoffee().subscribe((coffeList) => {
-			this.list = coffeList;
-			this.filteredList = [...this.list]
+			this.list = coffeList.filter((coffee) => coffee.active === true);
+			this.filteredList = [...this.list];
 		});
 		this.spinner.hide();
 	}
@@ -104,10 +107,20 @@ export class CoffeeListComponent implements OnInit {
 			return coffee.roaster.toLowerCase().includes(searchValue);
 		});
 	}
-	applySearch(): void  {
+
+	applySearch(): void {
 		this.filterData();
 		this.searchData();
 		this.sortData();
 		this.currentPage = 1;
+	}
+
+	onDelete(coffee: CoffeeModel) {
+		coffee.active = false;
+		this.coffeeService.putCoffee(coffee).subscribe((response) => {
+			console.log(response);
+		});
+		this.filterData();
+		this.searchData();
 	}
 }

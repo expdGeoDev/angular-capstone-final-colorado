@@ -1,7 +1,7 @@
 <div class="form-group text-primary p-3">
 	<label class="text-primary" for="coffeeSearch">Search Roaster:</label>
-	<input type="text" class="form-control d-block" id="coffeeSearch"
-				 aria-describedby="coffeeSearchHelp" placeholder="Search for roaster..." [(ngModel)]="searchText" />
+	<input type="text" class="form-control d-block" id="coffeeSearch" aria-describedby="coffeeSearchHelp"
+		placeholder="Search for roaster..." [(ngModel)]="searchText" />
 </div>
 <div class="form-group text-primary p-3">
 	<label for="roast">Select Roast Type:</label>
@@ -31,17 +31,24 @@
 				<th (click)="sortTable('format')" scope="col">Format <span [ngClass]="getSortClass('format')"></span>
 				</th>
 				<th (click)="sortTable('singleOrigin')" scope="col">SingleOrigin <span
-						[ngClass]="getSortClass('singleOrigin')"></span></th>
+						[ngClass]="getSortClass('singleOrigin')" style="align-items: center;"></span></th>
+				<th scope="col">Quick Actions<span></span></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr *ngFor="let coffee of filteredList | paginate: { itemsPerPage: limit, currentPage: currentPage }">
 				<td scope="row">{{coffee.id}}</td>
 				<td scope="row">{{coffee.active}}</td>
-				<td scope="row">{{coffee.roaster}}</td>
+				<td scope="row"><a style="color: blue; cursor: pointer;">{{coffee.roaster}}</a></td>
 				<td scope="row">{{coffee.roast}}</td>
 				<td scope="row">{{coffee.format}}</td>
 				<td scope="row">{{coffee.singleOrigin}}</td>
+				<td scope="row">
+					<i class="bi bi-trash p-2 m-1" data-bs-toggle="tooltip" data-bs-title="Default tooltip"
+						style="cursor: pointer;" (click)="onDelete(coffee)"></i>
+					<i class="bi bi-pencil p-2 m-1" data-bs-toggle="tooltip" data-bs-title="Default tooltip"
+						style="cursor: pointer;"></i>
+				</td>
 			</tr>
 		</tbody>
 	</table>
