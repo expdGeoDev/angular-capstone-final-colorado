@@ -20,6 +20,6 @@ export class HttpService {
 	}
 
 	postCoffee(formData: CoffeeModel): Observable<CoffeeModel[]> {
-		return this.client.post<CoffeeModel[]>(`${this.baseUrl}/coffee`, formData);
+		return this.client.post<CoffeeModel[]>(`${this.baseUrl}/coffees`, formData);
 	}
 }

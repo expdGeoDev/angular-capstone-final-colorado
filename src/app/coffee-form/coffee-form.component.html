@@ -1,5 +1,5 @@
 <div class="w-75 p-5 mx-auto border border-3 border-primary rounded clearfix">
-	<form [formGroup]="coffeeForm" (ngSubmit)="onSubmit(coffeeForm.value)">
+	<form [formGroup]="coffeeForm" (ngSubmit)="onSubmit(coffeeForm.value)" (keydown.enter)="$event.preventDefault()">
 		<h1 class="text-center text-primary">{{isEditCoffePage ? 'Edit/Delete': 'Add New'}} Coffee</h1>
 		<!--	Row 1: ID, Roaster -->
 		<div class="row g-3">
@@ -8,9 +8,9 @@
 			@if (isEditCoffePage) {
 			<div class="col-3">
 				<div class="form-group p-2">
-					<label class="text-primary" for="coffeeId">Coffee Id:</label>
-					<input type="text" class="form-control d-block" id="coffeeId" formControlName="coffeeId"
-						aria-describedby="coffeeIdHelp" placeholder="2" />
+					<label class="text-primary" for="id">Coffee Id:</label>
+					<input type="text" class="form-control d-block" id="id" formControlName="id"
+						aria-describedby="coffeeIdHelp" placeholder="2" 	(keyup.enter)="onKeyUp()"/>
 				</div>
 			</div>
 			}
@@ -70,23 +70,23 @@
 				<div class="form-group p-2 d-flex justify-content-between">
 					<label class="text-primary">Coffee Format: </label>
 					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeeGround"
-							value="Ground" />
+						<input class="form-check-input" type="radio" formControlName="format" id="coffeeGround"
+							value="ground" />
 						<label class="form-check-label" for="coffeeGround">
 							Ground
 						</label>
 					</div>
 					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeeBean"
-							value="Bean" checked />
+						<input class="form-check-input" type="radio" formControlName="format" id="coffeeBean"
+							value="bean" checked />
 						<label class="form-check-label" for="coffeeBean">
 							Bean
 						</label>
 					</div>
 
 					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeePod"
-							value="K-Pod" checked />
+						<input class="form-check-input" type="radio" formControlName="format" id="coffeePod"
+							value="k-pod" checked />
 						<label class="form-check-label" for="coffePod">
 							K-Pod
 						</label>
@@ -158,7 +158,7 @@
 
 		<!-- Buttons -->
 		<div class="form-group p-2 float-end">
-			<button type="reset" class="btn btn-danger btn-md me-1">Reset</button>
+			<button type="button" class="btn btn-danger btn-md me-1" (click)="resetForm()">Reset</button>
 			<button type="submit" class="btn btn-primary btn-md" [disabled]="!coffeeForm.valid">
 				@if (isLoading) {
 				<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>

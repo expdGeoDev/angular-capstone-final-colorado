@@ -27,6 +27,7 @@ export class CoffeeFormComponent {
 	coffeeForm!: FormGroup;
 	roastType: string[];
 	sizeType: (string | SizeType)[];
+	inputValue: string ='';
 
 	constructor(
 		private fb: FormBuilder,
@@ -39,14 +40,14 @@ export class CoffeeFormComponent {
 
 	ngOnInit(): void {
 		this.coffeeForm = this.fb.group({
-			coffeeId: [1],
+			id: [1],
 			active: [true],
 			roaster: ['', Validators.required],
 			variety: [null],
-			size: [8],
+			size: [0],
 			roast: ['Light', Validators.required],
-			groundOrBeans: ['Bean'],
-			grind: [1],
+			format: [''],
+			grind: [0],
 			origin: [null],
 			singleOrigin: [false],
 			tastingNotes: [''],
@@ -80,7 +81,7 @@ export class CoffeeFormComponent {
 			case 10:
 				return 'Extra Fine';
 			default:
-				return 'Unknown';
+				return '';
 		}
 	}
 
@@ -94,9 +95,35 @@ export class CoffeeFormComponent {
 
 	async onSubmit(coffee: CoffeeModel) {
 		this.isLoading = true;
-		await new Promise((f) => setTimeout(f, 1000));
-		this.isLoading = false;
-		console.log(this.coffeeForm.value);
-		this.toaster.success('Hello', 'Success', { closeButton: true });
+		console.log(coffee);
+		this.coffeeService.postCoffee(coffee).subscribe( coffee=> {
+			console.log(coffee)
+			this.toaster.success('Coffee save Successfully','Success',{ closeButton: true});
+			this.isLoading = false;
+			this.resetForm();
+		});
+
+	}
+
+	resetForm(){
+		this.coffeeForm.reset()
+		this.coffeeForm.get("grind")?.setValue(0);
+	}
+
+	onKeyUp():void{
+	console.log('test');
+	const id= this.coffeeForm.get('id')?.value
+	console.log(id);
+	this.coffeeService.getCoffeeById(id).subscribe( coffee=>{
+		console.log(coffee)
+		//console.log(JSON.stringify(coffee));
+		const cofeedata = JSON.stringify(coffee);
+		this.coffeeForm.setValue(coffee)
+		//this.coffeeForm.get("grind")?.setValue(coffee["grind"]);
+
+	}, error =>  {
+		this.toaster.warning('Coffee Id is not found','Warning',{ closeButton: true});
+		});
+
 	}
 }
