@@ -15,11 +15,15 @@ export class HttpService {
 		return this.client.get<CoffeeModel[]>(`${this.baseUrl}/coffees`);
 	}
 
-	getCoffeeById(id: number): Observable<CoffeeModel[]> {
-		return this.client.get<CoffeeModel[]>(`${this.baseUrl}/coffees/${id}`);
+	getCoffeeById(id: number): Observable<CoffeeModel> {
+		return this.client.get<CoffeeModel>(`${this.baseUrl}/coffees/${id}`);
 	}
 
-	postCoffee(formData: CoffeeModel): Observable<CoffeeModel[]> {
-		return this.client.post<CoffeeModel[]>(`${this.baseUrl}/coffee`, formData);
+	postCoffee(formData: CoffeeModel): Observable<CoffeeModel> {
+		return this.client.post<CoffeeModel>(`${this.baseUrl}/coffees`, formData);
+	}
+
+	getCoffeeByField(field: string, value: string): Observable<CoffeeModel[]> {
+		return this.client.get<CoffeeModel[]>(`${this.baseUrl}/coffees/?${field}=${value}`);
 	}
 }
