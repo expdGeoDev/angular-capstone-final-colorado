@@ -13,19 +13,20 @@ import { FormsModule } from '@angular/forms';
 })
 export class CoffeeListComponent implements OnInit {
 	list: CoffeeModel[] = [];
-	sortedData: CoffeeModel[] = [];
+	filteredList: CoffeeModel[] = [];
 	sortOrder = 'asc';
 	sortKey: keyof CoffeeModel = 'id';
-	roast: string = '';
+	roast: string = 'all';
 	limit: number = 25;
-	currentPage: number = 1;
+	currentPage: number = 1
+	searchText: string = '';
 
 	constructor(private coffeeService: HttpService) {}
 
 	ngOnInit() {
 		this.coffeeService.getAllCoffee().subscribe((coffeList) => {
 			this.list = coffeList;
-			this.sortedData = [...this.list];
+			this.filteredList = [...this.list]
 		});
 	}
 
@@ -38,22 +39,20 @@ export class CoffeeListComponent implements OnInit {
 			this.currentPage = page;
 		}
 	}
-
 	sortTable(key: keyof CoffeeModel) {
 		this.sortKey = key;
 		this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+		this.sortData();
+	}
 
-		this.sortedData = this.list.sort((a, b) => {
-			const aValue = key === 'id' ? +a[key] : a[key];
-			const bValue = key === 'id' ? +b[key] : b[key];
+	sortData() {
+		this.filteredList.sort((a, b) => {
+			const aValue = this.sortKey === 'id' ? +a[this.sortKey] : a[this.sortKey];
+			const bValue = this.sortKey === 'id' ? +b[this.sortKey] : b[this.sortKey];
 
 			if (aValue === undefined || bValue === undefined) {
 				return 0; // Treat undefined values as equal
 			}
-
-			// if (this.sortedKey == 'id'){
-			//
-			// }
 
 			if (aValue < bValue) {
 				return this.sortOrder === 'asc' ? -1 : 1;
@@ -80,10 +79,29 @@ export class CoffeeListComponent implements OnInit {
 	}
 
 	getFilteredandSortedCoffees(): CoffeeModel[] {
-		return this.roast === ''
-			? this.sortedData.filter((coffee) => coffee.active === true)
-			: this.sortedData
-					.filter((coffee) => coffee.active === true)
-					.filter((coffee) => coffee.roast === this.roast);
+		return this.filteredList;
+	}
+
+	filterData(): void {
+		if (this.roast === 'all') {
+			this.filteredList = this.list.filter((coffee) => coffee.active === true);
+		} else {
+			this.filteredList = this.list
+				.filter((coffee) => coffee.active === true)
+				.filter((coffee) => coffee.roast === this.roast);
+		}
+	}
+
+	searchData(): void {
+		const searchValue = this.searchText.toLowerCase().trim();
+		this.filteredList = this.filteredList.filter((coffee) => {
+			return coffee.roaster.toLowerCase().includes(searchValue);
+		});
+	}
+	applySearch(): void  {
+		this.filterData();
+		this.searchData();
+		this.sortData();
+		this.currentPage = 1;
 	}
 }
