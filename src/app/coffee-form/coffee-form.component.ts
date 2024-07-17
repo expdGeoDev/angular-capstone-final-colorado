@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
 	FormBuilder,
 	FormGroup,
@@ -10,7 +10,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { HttpService } from '../service/http.service';
 import { CoffeeModel, RoastType, SizeType } from '../model/CoffeeModel';
 import { isNumber, values } from '@uirouter/angular';
-import { ToastrService} from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 	selector: 'app-coffee-form',
@@ -20,6 +20,9 @@ import { ToastrService} from 'ngx-toastr';
 	styleUrl: './coffee-form.component.css',
 })
 export class CoffeeFormComponent {
+	@Input()
+	isEditCoffePage: boolean = false;
+	isLoading: boolean = false;
 	grindValue = 1;
 	coffeeForm!: FormGroup;
 	roastType: string[];
@@ -54,7 +57,6 @@ export class CoffeeFormComponent {
 		return this.coffeeForm.get('roaster');
 	}
 
-	// TODO: Needs to Range up to 10
 	getGrindLevel(value: number): string {
 		switch (value) {
 			case 1:
@@ -90,8 +92,11 @@ export class CoffeeFormComponent {
 		}
 	}
 
-	onSubmit() {
+	async onSubmit(coffee: CoffeeModel) {
+		this.isLoading = true;
+		await new Promise((f) => setTimeout(f, 1000));
+		this.isLoading = false;
 		console.log(this.coffeeForm.value);
-		this.toaster.warning("Hello", "Warning");
+		this.toaster.success('Hello', 'Success', { closeButton: true });
 	}
 }
