@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
 	FormBuilder,
 	FormGroup,
@@ -10,7 +10,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { HttpService } from '../service/http.service';
 import { CoffeeModel, RoastType, SizeType } from '../model/CoffeeModel';
 import { isNumber, values } from '@uirouter/angular';
-import { ToastrService} from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 	selector: 'app-coffee-form',
@@ -20,10 +20,14 @@ import { ToastrService} from 'ngx-toastr';
 	styleUrl: './coffee-form.component.css',
 })
 export class CoffeeFormComponent {
+	@Input()
+	isEditCoffePage: boolean = false;
+	isLoading: boolean = false;
 	grindValue = 1;
 	coffeeForm!: FormGroup;
 	roastType: string[];
 	sizeType: (string | SizeType)[];
+	inputValue: string = '';
 
 	constructor(
 		private fb: FormBuilder,
@@ -36,17 +40,17 @@ export class CoffeeFormComponent {
 
 	ngOnInit(): void {
 		this.coffeeForm = this.fb.group({
-			coffeeId: [1],
-			active: [true],
-			roaster: ['', Validators.required],
-			variety: [null],
-			size: [8],
-			roast: ['Light', Validators.required],
-			groundOrBeans: ['Bean'],
-			grind: [1],
-			origin: [null],
-			singleOrigin: [false],
-			tastingNotes: [''],
+			id: [''],
+			active: [{ value: true, disabled: this.isEditCoffePage }],
+			roaster: [{ value: '', disabled: this.isEditCoffePage }, Validators.required],
+			variety: [{ value: null, disabled: this.isEditCoffePage }],
+			size: [{ value: 0, disabled: this.isEditCoffePage }],
+			roast: [{ value: 'Light', disabled: this.isEditCoffePage }, Validators.required],
+			format: [{ value: '', disabled: this.isEditCoffePage }],
+			grind: [{ value: 0, disabled: this.isEditCoffePage }],
+			origin: [{ value: null, disabled: this.isEditCoffePage }],
+			singleOrigin: [{ value: false, disabled: this.isEditCoffePage }],
+			tastingNotes: [{ value: '', disabled: this.isEditCoffePage }],
 		});
 	}
 
@@ -54,7 +58,16 @@ export class CoffeeFormComponent {
 		return this.coffeeForm.get('roaster');
 	}
 
-	// TODO: Needs to Range up to 10
+	getUniqueId(parts: number): string {
+		const stringArr = [];
+		for (let i = 0; i < parts; i++) {
+			// tslint:disable-next-line:no-bitwise
+			const S4 = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+			stringArr.push(S4);
+		}
+		return stringArr.join('-');
+	}
+
 	getGrindLevel(value: number): string {
 		switch (value) {
 			case 1:
@@ -78,7 +91,7 @@ export class CoffeeFormComponent {
 			case 10:
 				return 'Extra Fine';
 			default:
-				return 'Unknown';
+				return '';
 		}
 	}
 
@@ -90,8 +103,50 @@ export class CoffeeFormComponent {
 		}
 	}
 
-	onSubmit() {
-		console.log(this.coffeeForm.value);
-		this.toaster.warning("Hello", "Warning");
+	async onSubmit() {
+		if (this.isEditCoffePage) {
+			const coffee: CoffeeModel = this.coffeeForm.value;
+			this.coffeeService.putCoffee(coffee).subscribe((response) => {
+				console.log(response);
+				this.toaster.success(`Coffee ${coffee.roaster} updated Successfully`, 'Success', {
+					closeButton: true,
+				});
+				this.resetForm();
+			});
+		} else {
+			const coffee = this.coffeeForm.value;
+			delete coffee.id;
+			this.coffeeService.postCoffee(coffee).subscribe((response) => {
+				console.log(response);
+				this.toaster.success('Coffee save Successfully', 'Success', { closeButton: true });
+				this.resetForm();
+			});
+		}
+	}
+
+	handleIdChanges() {
+		if (this.coffeeForm.get('id')?.value === '') {
+			this.coffeeForm.disable();
+			this.coffeeForm.get('id')?.enable();
+			this.resetForm();
+		}
+	}
+
+	resetForm() {
+		this.coffeeForm.reset();
+		this.coffeeForm.get('grind')?.setValue(0);
+	}
+
+	onKeyUp(): void {
+		const id = this.coffeeForm.get('id')?.value;
+		this.coffeeService.getCoffeeById(id).subscribe(
+			(coffee) => {
+				this.coffeeForm.setValue(coffee);
+				this.coffeeForm.enable();
+			},
+			(error) => {
+				this.toaster.warning('Coffee Id is not found', 'Warning', { closeButton: true });
+			}
+		);
 	}
 }

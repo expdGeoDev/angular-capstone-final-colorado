@@ -1,27 +1,33 @@
 <div class="w-75 p-5 mx-auto border border-3 border-primary rounded clearfix">
-	<form [formGroup]="coffeeForm" (ngSubmit)="onSubmit()">
-		<h1 class="text-center text-primary">Add New Coffee</h1>
+	<form [formGroup]="coffeeForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+		<h1 class="text-center text-primary">{{isEditCoffePage ? 'Edit/Delete': 'Add New'}} Coffee</h1>
 		<!--	Row 1: ID, Roaster -->
 		<div class="row g-3">
+
+			<!-- ID -->
+			@if (isEditCoffePage) {
 			<div class="col-3">
-				<!-- ID -->
 				<div class="form-group p-2">
-					<label class="text-primary" for="coffeeId">Coffee Id:</label>
-					<input type="text" class="form-control d-block" id="coffeeId" formControlName="coffeeId"
-								 aria-describedby="coffeeIdHelp" placeholder="2" />
+					<label class="text-primary" for="id">Coffee Id:</label>
+					<input type="text" class="form-control d-block" id="id" formControlName="id"
+						aria-describedby="coffeeIdHelp" (keyup.enter)="onKeyUp()" autofocus
+						(input)="handleIdChanges()" />
 				</div>
 			</div>
+			}
 			<div class="col-9">
 				<!-- Roaster -->
 				<div class="form-group p-2">
 					<label class="text-primary" for="roaster">Roaster*:</label>
 					<input type="text" class="form-control d-block" id="roaster" formControlName="roaster"
-								 aria-describedby="coffeeRoasterHelp" placeholder="Enter Coffee Roaster" />
-					<div *ngIf="roaster?.invalid && (roaster?.dirty || roaster?.touched)" class="invalid-feedback d-block">Brand
+						aria-describedby="coffeeRoasterHelp" placeholder="Enter Coffee Roaster" />
+					<div *ngIf="roaster?.invalid && (roaster?.dirty || roaster?.touched)"
+						class="invalid-feedback d-block">Brand
 						is Required
 					</div>
 
-					<div class="valid-feedback d-block" *ngIf="roaster?.valid && (roaster?.dirty|| roaster?.touched)">This field
+					<div class="valid-feedback d-block" *ngIf="roaster?.valid && (roaster?.dirty|| roaster?.touched)">
+						This field
 						is valid
 					</div>
 				</div>
@@ -65,23 +71,23 @@
 				<div class="form-group p-2 d-flex justify-content-between">
 					<label class="text-primary">Coffee Format: </label>
 					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeeGround"
-									 value="Ground" />
+						<input class="form-check-input" type="radio" formControlName="format" id="coffeeGround"
+							value="ground" />
 						<label class="form-check-label" for="coffeeGround">
 							Ground
 						</label>
 					</div>
 					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeeBean"
-									 value="Bean" checked />
+						<input class="form-check-input" type="radio" formControlName="format" id="coffeeBean"
+							value="bean" checked />
 						<label class="form-check-label" for="coffeeBean">
 							Bean
 						</label>
 					</div>
 
 					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" formControlName="groundOrBeans" id="coffeePod"
-									 value="K-Pod" checked />
+						<input class="form-check-input" type="radio" formControlName="format" id="coffeePod"
+							value="k-pod" checked />
 						<label class="form-check-label" for="coffePod">
 							K-Pod
 						</label>
@@ -96,9 +102,9 @@
 			<div class="form-group p-3">
 				<label class="text-primary" for="grindRange">Grind Level: <span>{{
 						getGrindLevel(grindValue)
-					}}</span></label>
+						}}</span></label>
 				<input type="range" class="form-range" min="1" max="10" step="1" id="grindRange" value=1
-							 [(ngModel)]="grindValue" formControlName="grind" />
+					[(ngModel)]="grindValue" formControlName="grind" />
 			</div>
 		</div>
 
@@ -109,10 +115,10 @@
 				<div class="form-group p-3">
 					<label class="form-check-label text-primary" for="singleOriginSwitch">Single Origin: <span>{{
 							getSingleOrigin(coffeeForm.get('singleOrigin')?.value)
-						}}</span></label>
+							}}</span></label>
 					<div class="form-check form-switch ">
 						<input class="form-check-input" type="checkbox" id="singleOriginSwitch"
-									 formControlName="singleOrigin" />
+							formControlName="singleOrigin" />
 					</div>
 				</div>
 			</div>
@@ -121,7 +127,7 @@
 				<div class="form-group p-2">
 					<label class="text-primary" for="singleOrigin">Origin:</label>
 					<input type="text" class="form-control d-block" id="singleOrigin" formControlName="origin"
-								 aria-describedby="coffeeSingleOriginHelp" placeholder="Enter origin" />
+						aria-describedby="coffeeSingleOriginHelp" placeholder="Enter origin" />
 				</div>
 			</div>
 		</div>
@@ -133,7 +139,7 @@
 				<div class="form-group p-2">
 					<label class="text-primary" for="variety">Variety:</label>
 					<input type="text" class="form-control d-block" id="variety" formControlName="variety"
-								 aria-describedby="coffeeVarietyHelp" placeholder="Enter Variety" />
+						aria-describedby="coffeeVarietyHelp" placeholder="Enter Variety" />
 				</div>
 			</div>
 		</div>
@@ -145,7 +151,7 @@
 				<div class="form-group p-2">
 					<label class="text-primary" for="tastingNotes">Tasting Notes:</label>
 					<textarea class="form-control" id="tastingNotes" rows="4" formControlName="tastingNotes"
-										placeholder="Enter tasting notes..."></textarea>
+						placeholder="Enter tasting notes..."></textarea>
 				</div>
 			</div>
 		</div>
@@ -153,8 +159,15 @@
 
 		<!-- Buttons -->
 		<div class="form-group p-2 float-end">
-			<button type="reset" class="btn btn-danger btn-md me-1">Reset</button>
-			<button type="submit" class="btn btn-primary btn-md">Submit</button>
+			<button type="button" class="btn btn-danger btn-md me-1" (click)="resetForm()">Reset</button>
+			<button type="submit" class="btn btn-primary btn-md" [disabled]="!coffeeForm.valid">
+				@if (isLoading) {
+				<span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+				<span role="status"> Saving...</span>
+				} @else {
+				Submit
+				}
+			</button>
 		</div>
 	</form>
 
