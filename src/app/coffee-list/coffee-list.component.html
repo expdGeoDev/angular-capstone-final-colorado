@@ -19,6 +19,15 @@
 </div>
 } @else {
 <div class="w-75 p-5 mx-auto">
+	<div class="form-group text-primary pb-3">
+		<label for="rowsPerPage">Rows per Page: &nbsp;</label>
+		<select class="form-control-sm" id="rowsPerPage" [(ngModel)]="limit">
+			<option value="10">10</option>
+			<option value="25">25</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+		</select>
+	</div>
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -34,10 +43,8 @@
 						[ngClass]="getSortClass('singleOrigin')"></span></th>
 			</tr>
 		</thead>
-
 		<tbody>
-			@for (coffee of getPaginatedResult(); track coffee; ) {
-			<tr>
+			<tr *ngFor="let coffee of filteredList | paginate: { itemsPerPage: limit, currentPage: currentPage }">
 				<td scope="row">{{coffee.id}}</td>
 				<td scope="row">{{coffee.active}}</td>
 				<td scope="row">{{coffee.roaster}}</td>
@@ -45,36 +52,11 @@
 				<td scope="row">{{coffee.format}}</td>
 				<td scope="row">{{coffee.singleOrigin}}</td>
 			</tr>
-			}
 		</tbody>
 	</table>
-	<ul class="pagination">
-		<li class="page-item">
-			<a class="page-link" aria-label="Previous" (click)="changePage(currentPage - 1)">
-				<span aria-hidden="true">&laquo;</span>
-			</a>
-		</li>
-
-		<li *ngFor="let pageNumber of [].constructor(calculateNumberOfPage()); let i = index" class="page-item">
-			<a class="page-link" (click)="changePage(i+1)">
-				{{i+1}}
-			</a>
-		</li>
-
-		<li class="page-item">
-			<a class="page-link" aria-label="Next" (click)="changePage(currentPage + 1)">
-				<span aria-hidden="true">&raquo;</span>
-			</a>
-		</li>
-	</ul>
-	<div class="form-group text-primary p-3 text-end">
-		<label for="rowsPerPage">Rows per Page: &nbsp;</label>
-		<select class="form-control-sm" id="rowsPerPage" [(ngModel)]="limit">
-			<option value="10">10</option>
-			<option value="25">25</option>
-			<option value="50">50</option>
-			<option value="100">100</option>
-		</select>
-	</div>
+</div>
+<div class="d-flex justify-content-center flex-grow-1">
+	<pagination-controls class="custom-pagination" (pageChange)="changePage($event)"></pagination-controls>
 </div>
 }
+
