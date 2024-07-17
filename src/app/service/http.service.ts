@@ -15,8 +15,8 @@ export class HttpService {
 		return this.client.get<CoffeeModel[]>(`${this.baseUrl}/coffees`);
 	}
 
-	getCoffeeById(id: number): Observable<CoffeeModel[]> {
-		return this.client.get<CoffeeModel[]>(`${this.baseUrl}/coffees/${id}`);
+	getCoffeeById(id: number): Observable<CoffeeModel> {
+		return this.client.get<CoffeeModel>(`${this.baseUrl}/coffees/${id}`);
 	}
 
 	postCoffee(formData: CoffeeModel): Observable<CoffeeModel[]> {
@@ -26,5 +26,9 @@ export class HttpService {
 	putCoffee(formData: CoffeeModel): Observable<CoffeeModel[]> {
 		const id = formData.id;
 		return this.client.put<CoffeeModel[]>(`${this.baseUrl}/coffees/${id}`, formData);
+	}
+
+	getCoffeeByField(field: string, value: string): Observable<CoffeeModel[]> {
+		return this.client.get<CoffeeModel[]>(`${this.baseUrl}/coffees/?${field}=${value}`);
 	}
 }
