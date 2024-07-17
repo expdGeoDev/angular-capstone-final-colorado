@@ -19,15 +19,6 @@
 </div>
 } @else {
 <div class="w-75 p-5 mx-auto">
-	<div class="form-group text-primary pb-3">
-		<label for="rowsPerPage">Rows per Page: &nbsp;</label>
-		<select class="form-control-sm" id="rowsPerPage" [(ngModel)]="limit">
-			<option value="10">10</option>
-			<option value="25">25</option>
-			<option value="50">50</option>
-			<option value="100">100</option>
-		</select>
-	</div>
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -59,4 +50,3 @@
 	<pagination-controls class="custom-pagination" (pageChange)="changePage($event)"></pagination-controls>
 </div>
 }
-

@@ -22,13 +22,17 @@ export class CoffeeListComponent implements OnInit {
 	currentPage: number = 1
 	searchText: string = '';
 
-	constructor(private coffeeService: HttpService) {}
+	constructor(private coffeeService: HttpService, private spinner: NgxSpinnerService,) {}
 
 	ngOnInit() {
+		// TODO: NGXSpinner is showing but not creating cool spinner
+		// To Test we are having to comment out 'this.spinner.hide()'
+		this.spinner.show();
 		this.coffeeService.getAllCoffee().subscribe((coffeList) => {
 			this.list = coffeList;
 			this.filteredList = [...this.list]
 		});
+		this.spinner.hide();
 	}
 
 	calculateNumberOfPage(): number {
