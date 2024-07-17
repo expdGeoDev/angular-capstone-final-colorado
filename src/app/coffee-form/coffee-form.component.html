@@ -1,5 +1,5 @@
 <div class="w-75 p-5 mx-auto border border-3 border-primary rounded clearfix">
-	<form [formGroup]="coffeeForm" (ngSubmit)="onSubmit(coffeeForm.value)" (keydown.enter)="$event.preventDefault()">
+	<form [formGroup]="coffeeForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
 		<h1 class="text-center text-primary">{{isEditCoffePage ? 'Edit/Delete': 'Add New'}} Coffee</h1>
 		<!--	Row 1: ID, Roaster -->
 		<div class="row g-3">
@@ -10,7 +10,8 @@
 				<div class="form-group p-2">
 					<label class="text-primary" for="id">Coffee Id:</label>
 					<input type="text" class="form-control d-block" id="id" formControlName="id"
-						aria-describedby="coffeeIdHelp" placeholder="2" 	(keyup.enter)="onKeyUp()"/>
+						aria-describedby="coffeeIdHelp" (keyup.enter)="onKeyUp()" autofocus
+						(input)="handleIdChanges()" />
 				</div>
 			</div>
 			}

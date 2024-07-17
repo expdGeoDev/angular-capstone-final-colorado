@@ -22,4 +22,9 @@ export class HttpService {
 	postCoffee(formData: CoffeeModel): Observable<CoffeeModel[]> {
 		return this.client.post<CoffeeModel[]>(`${this.baseUrl}/coffees`, formData);
 	}
+
+	putCoffee(formData: CoffeeModel): Observable<CoffeeModel[]> {
+		const id = formData.id;
+		return this.client.put<CoffeeModel[]>(`${this.baseUrl}/coffees/${id}`, formData);
+	}
 }

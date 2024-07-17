@@ -27,7 +27,7 @@ export class CoffeeFormComponent {
 	coffeeForm!: FormGroup;
 	roastType: string[];
 	sizeType: (string | SizeType)[];
-	inputValue: string ='';
+	inputValue: string = '';
 
 	constructor(
 		private fb: FormBuilder,
@@ -40,22 +40,32 @@ export class CoffeeFormComponent {
 
 	ngOnInit(): void {
 		this.coffeeForm = this.fb.group({
-			id: [1],
-			active: [true],
-			roaster: ['', Validators.required],
-			variety: [null],
-			size: [0],
-			roast: ['Light', Validators.required],
-			format: [''],
-			grind: [0],
-			origin: [null],
-			singleOrigin: [false],
-			tastingNotes: [''],
+			id: [''],
+			active: [{ value: true, disabled: this.isEditCoffePage }],
+			roaster: [{ value: '', disabled: this.isEditCoffePage }, Validators.required],
+			variety: [{ value: null, disabled: this.isEditCoffePage }],
+			size: [{ value: 0, disabled: this.isEditCoffePage }],
+			roast: [{ value: 'Light', disabled: this.isEditCoffePage }, Validators.required],
+			format: [{ value: '', disabled: this.isEditCoffePage }],
+			grind: [{ value: 0, disabled: this.isEditCoffePage }],
+			origin: [{ value: null, disabled: this.isEditCoffePage }],
+			singleOrigin: [{ value: false, disabled: this.isEditCoffePage }],
+			tastingNotes: [{ value: '', disabled: this.isEditCoffePage }],
 		});
 	}
 
 	get roaster() {
 		return this.coffeeForm.get('roaster');
+	}
+
+	getUniqueId(parts: number): string {
+		const stringArr = [];
+		for (let i = 0; i < parts; i++) {
+			// tslint:disable-next-line:no-bitwise
+			const S4 = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+			stringArr.push(S4);
+		}
+		return stringArr.join('-');
 	}
 
 	getGrindLevel(value: number): string {
@@ -93,37 +103,50 @@ export class CoffeeFormComponent {
 		}
 	}
 
-	async onSubmit(coffee: CoffeeModel) {
-		this.isLoading = true;
-		console.log(coffee);
-		this.coffeeService.postCoffee(coffee).subscribe( coffee=> {
-			console.log(coffee)
-			this.toaster.success('Coffee save Successfully','Success',{ closeButton: true});
-			this.isLoading = false;
+	async onSubmit() {
+		if (this.isEditCoffePage) {
+			const coffee: CoffeeModel = this.coffeeForm.value;
+			this.coffeeService.putCoffee(coffee).subscribe((response) => {
+				console.log(response);
+				this.toaster.success(`Coffee ${coffee.roaster} updated Successfully`, 'Success', {
+					closeButton: true,
+				});
+				this.resetForm();
+			});
+		} else {
+			const coffee = this.coffeeForm.value;
+			delete coffee.id;
+			this.coffeeService.postCoffee(coffee).subscribe((response) => {
+				console.log(response);
+				this.toaster.success('Coffee save Successfully', 'Success', { closeButton: true });
+				this.resetForm();
+			});
+		}
+	}
+
+	handleIdChanges() {
+		if (this.coffeeForm.get('id')?.value === '') {
+			this.coffeeForm.disable();
+			this.coffeeForm.get('id')?.enable();
 			this.resetForm();
-		});
-
+		}
 	}
 
-	resetForm(){
-		this.coffeeForm.reset()
-		this.coffeeForm.get("grind")?.setValue(0);
+	resetForm() {
+		this.coffeeForm.reset();
+		this.coffeeForm.get('grind')?.setValue(0);
 	}
 
-	onKeyUp():void{
-	console.log('test');
-	const id= this.coffeeForm.get('id')?.value
-	console.log(id);
-	this.coffeeService.getCoffeeById(id).subscribe( coffee=>{
-		console.log(coffee)
-		//console.log(JSON.stringify(coffee));
-		const cofeedata = JSON.stringify(coffee);
-		this.coffeeForm.setValue(coffee)
-		//this.coffeeForm.get("grind")?.setValue(coffee["grind"]);
-
-	}, error =>  {
-		this.toaster.warning('Coffee Id is not found','Warning',{ closeButton: true});
-		});
-
+	onKeyUp(): void {
+		const id = this.coffeeForm.get('id')?.value;
+		this.coffeeService.getCoffeeById(id).subscribe(
+			(coffee) => {
+				this.coffeeForm.setValue(coffee);
+				this.coffeeForm.enable();
+			},
+			(error) => {
+				this.toaster.warning('Coffee Id is not found', 'Warning', { closeButton: true });
+			}
+		);
 	}
 }
