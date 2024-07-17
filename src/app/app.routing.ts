@@ -4,6 +4,7 @@ import { CoffeeFormComponent } from './coffee-form/coffee-form.component';
 import { CoffeeListComponent } from './coffee-list/coffee-list.component';
 import { CoffeeAddComponent } from './coffee-add/coffee-add.component';
 
+import { CoffeeEditDelete } from './coffee-edit-delete/coffee-edit-delete.component';
 export const appRouting: Ng2StateDeclaration[] = [
 	{
 		name: 'home',
@@ -16,4 +17,5 @@ export const appRouting: Ng2StateDeclaration[] = [
 		url: '/coffee-list',
 		component: CoffeeListComponent,
 	},
+	{ name: 'coffeeEditDelete', url: '/edit-delete-coffee', component: CoffeeEditDelete },
 ];
