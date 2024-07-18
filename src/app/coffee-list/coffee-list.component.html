@@ -1,17 +1,92 @@
+<!-- Start Modal -->
+<app-modal id="modal-1">
+	<div class="modal-header">
+		<h5 class="modal-title">Coffee Details</h5>
+		<button type="button" class="btn-close" (click)="modal.close();"></button>
+	</div>
+	<div class="modal-body">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-6">
+					<label class="form-check-label text-primary m-2">Coffe Id: </label>
+					<span>{{coffeeSelected.id}}</span>
+				</div>
+				<div class="col-md-6">
+					<label class="form-check-label text-primary m-2">Roaster: </label>
+					<span>{{coffeeSelected.roaster}}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<label class="form-check-label text-primary m-2">Active: </label>
+					<span>{{coffeeSelected.active}}</span>
+				</div>
+				<div class="col-md-6">
+					<label class="form-check-label text-primary m-2">Size: </label>
+					<span>{{coffeeSelected.size}}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<label class="form-check-label text-primary m-2">Roast Type: </label>
+					<span>{{coffeeSelected.roast}}</span>
+				</div>
+				<div class="col-md-6">
+					<label class="form-check-label text-primary m-2">Coffee Format: </label>
+					<span>{{coffeeSelected.format}}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<label class="form-check-label text-primary m-2">Grind Level: </label>
+					<span>{{coffeeSelected.grind}}</span>
+				</div>
+				<div class="col-md-6">
+					<label class="form-check-label text-primary m-2">Single Origin: </label>
+					<span>{{coffeeSelected.singleOrigin}}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<label class="form-check-label text-primary m-2">Origin: </label>
+					<span>{{coffeeSelected.origin}}</span>
+				</div>
+				<div class="col-md-6">
+					<label class="form-check-label text-primary m-2">Variety: </label>
+					<span>{{coffeeSelected.variety}}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<label class="form-check-label text-primary m-2">Tasting Notes: </label>
+					<span>{{coffeeSelected.tastingNotes}}</span>
+				</div>
+				<div class="col-md-6">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" (click)="modal.close();">Close</button>
+	</div>
+</app-modal>
+<!-- Ends Modal -->
+
+<!-- Filter Section -->
 <div class="form-group text-primary p-3">
 	<label class="text-primary" for="coffeeSearch">Search Roaster:</label>
 	<input type="text" class="form-control d-block" id="coffeeSearch" aria-describedby="coffeeSearchHelp"
 		placeholder="Search for roaster..." [(ngModel)]="searchText" />
 </div>
-<div class="form-group text-primary p-3">
-	<label for="roast">Select Roast Type:</label>
+<div class="form-group p-3 text-primary">
+	<label for="roast">Select Roast Type*:</label>
 	<select class="form-control" id="roast" [(ngModel)]="roast">
 		<option value="all">All</option>
-		<option value="medium">Medium</option>
-		<option value="dark">Dark</option>
+		<option *ngFor="let item of roastType" [value]="item">{{ item }}</option>
 	</select>
 </div>
 <button (click)="applySearch()" class="btn btn-primary mt-3 float-end me-3">Search</button>
+<!-- Filter Section -->
 
 @if(getPaginatedResult().length === 0) {
 <div>
@@ -39,7 +114,9 @@
 			<tr *ngFor="let coffee of filteredList | paginate: { itemsPerPage: limit, currentPage: currentPage }">
 				<td scope="row">{{coffee.id}}</td>
 				<td scope="row">{{coffee.active}}</td>
-				<td scope="row"><a style="color: blue; cursor: pointer;">{{coffee.roaster}}</a></td>
+				<td scope="row"><a style="color: #0d6efd; cursor: pointer;"
+						(click)="toggleModal(coffee)">{{coffee.roaster}}</a>
+				</td>
 				<td scope="row">{{coffee.roast}}</td>
 				<td scope="row">{{coffee.format}}</td>
 				<td scope="row">{{coffee.singleOrigin}}</td>

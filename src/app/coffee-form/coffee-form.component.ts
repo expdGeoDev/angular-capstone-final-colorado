@@ -11,6 +11,7 @@ import { HttpService } from '../service/http.service';
 import { CoffeeModel, RoastType, SizeType } from '../model/CoffeeModel';
 import { isNumber, values } from '@uirouter/angular';
 import { ToastrService } from 'ngx-toastr';
+import { StateService } from '@uirouter/angular';
 
 @Component({
 	selector: 'app-coffee-form',
@@ -32,7 +33,8 @@ export class CoffeeFormComponent {
 	constructor(
 		private fb: FormBuilder,
 		private coffeeService: HttpService,
-		private toaster: ToastrService
+		private toaster: ToastrService,
+		private stateService: StateService
 	) {
 		this.roastType = Object.values(RoastType);
 		this.sizeType = Object.values(SizeType).filter((value) => isNumber(value));
@@ -112,6 +114,7 @@ export class CoffeeFormComponent {
 					closeButton: true,
 				});
 				this.resetForm();
+				this.stateService.go('coffeeList');
 			});
 		} else {
 			const coffee = this.coffeeForm.value;
@@ -120,6 +123,7 @@ export class CoffeeFormComponent {
 				console.log(response);
 				this.toaster.success('Coffee save Successfully', 'Success', { closeButton: true });
 				this.resetForm();
+				this.stateService.go('coffeeList');
 			});
 		}
 	}
