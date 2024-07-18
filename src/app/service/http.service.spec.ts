@@ -7,6 +7,7 @@ import {
 	mockCoffeeArray,
 	mockCoffeeArrayByRoaster,
 } from '../mocks/mockCoffee';
+import { CoffeeModel, RoastType, SizeType } from '../model/CoffeeModel';
 
 describe('HttpService', () => {
 	let service: HttpService;
@@ -26,7 +27,7 @@ describe('HttpService', () => {
 		httpController.verify();
 	});
 
-	it('should be created', () => {
+	it('should create', () => {
 		expect(service).toBeTruthy();
 	});
 
@@ -85,5 +86,32 @@ describe('HttpService', () => {
 		});
 
 		req.flush(mockCoffeeArrayByRoaster);
+	});
+
+	it('should call putCoffee and return the updated coffee from the API', () => {
+		const updatedCoffee: CoffeeModel = {
+			id: 1,
+			active: false,
+			roaster: "Tim Horton's",
+			variety: '',
+			size: 14,
+			roast: RoastType.DARK,
+			format: 'k-pod',
+			grind: SizeType.TWENTYFOUR,
+			origin: [''],
+			singleOrigin: true,
+			tastingNotes: '',
+		};
+
+		service.putCoffee(mockCoffee1).subscribe((data) => {
+			expect(data).toEqual(updatedCoffee);
+		});
+
+		const req = httpController.expectOne({
+			method: 'PUT',
+			url: `${baseUrl}/coffees/${updatedCoffee.id}`,
+		});
+
+		req.flush(updatedCoffee);
 	});
 });
