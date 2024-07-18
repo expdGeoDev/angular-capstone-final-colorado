@@ -43,6 +43,7 @@ export class CoffeeListComponent implements OnInit {
 		tastingNotes: '',
 	};
 	roastType: string[];
+	isValid = true;
 
 	constructor(
 		private coffeeService: HttpService,
@@ -131,11 +132,23 @@ export class CoffeeListComponent implements OnInit {
 		});
 	}
 
+	validateSearch(): boolean{
+		const validRegex = /^[a-z0-9\s']+$/i;
+		return validRegex.test(this.searchText);
+	}
+
 	applySearch(): void {
-		this.filterData();
-		this.searchData();
-		this.sortData();
-		this.currentPage = 1;
+		if (this.validateSearch() || this.searchText == ''){
+			this.filterData();
+			this.searchData();
+			this.sortData();
+			this.currentPage = 1;
+			this.isValid = true;
+		} else {
+			this.isValid = false;
+		}
+
+
 	}
 
 	onDelete(coffee: CoffeeModel) {

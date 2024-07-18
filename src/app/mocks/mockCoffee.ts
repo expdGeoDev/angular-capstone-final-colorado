@@ -2,7 +2,7 @@ import { CoffeeModel, RoastType, SizeType } from '../model/CoffeeModel';
 
 const mockCoffee1: CoffeeModel = {
 	"id": 1,
-	"active": false,
+	"active": true,
 	"roaster": "Tim Horton's",
 	"variety": '',
 	"size": 14,
@@ -58,7 +58,7 @@ const mockCoffee4: CoffeeModel =
 const mockCoffee5: CoffeeModel =
 {
 	"id": 5,
-	"active": false,
+	"active": true,
 	"roaster": "Eight O'Clock",
 	"variety": '',
 	"size": SizeType.TWENTYFOUR,
