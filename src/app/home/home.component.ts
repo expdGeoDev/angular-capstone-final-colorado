@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { NavbarComponent } from './navbar/navbar.component';
+import { UIRouterModule } from '@uirouter/angular';
 
 @Component({
 	selector: 'app-home',
 	standalone: true,
-	imports: [NavbarComponent],
+	imports: [NavbarComponent, UIRouterModule],
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.css',
 })
