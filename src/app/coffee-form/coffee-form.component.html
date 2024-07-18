@@ -1,4 +1,4 @@
-<div class="w-75 p-5 mx-auto border border-3 border-primary rounded clearfix">
+<div class="w-75 p-5 mx-auto border border-2 border-primary rounded clearfix">
 	<form [formGroup]="coffeeForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
 		<h1 class="text-center text-primary">{{isEditCoffePage ? 'Edit/Delete': 'Add New'}} Coffee</h1>
 		<!--	Row 1: ID, Roaster -->
