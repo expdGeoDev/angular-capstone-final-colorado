@@ -1,26 +1,32 @@
-<div class="row m-2 container">
-    <div class="col-sm-3 mb-3 mb-sm-0">
-        <div class="card" style="cursor: pointer;" (click)="onClick('List of Coffees')">
-            <div class="card-body">
-                <h5 class="card-title">List of Coffee's</h5>
-                <p class="card-text">List all the active coffees.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-3 mb-3 mb-sm-0">
-        <div class="card" style="cursor: pointer;" (click)="onClick('Add Coffee')">
-            <div class="card-body">
-                <h5 class="card-title">Add Coffee</h5>
-                <p class="card-text">Form to add a new coffee.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-3 mb-3 mb-sm-0">
-        <div class="card" style="cursor: pointer;" (click)="onClick('Edit/Delete Coffee')">
-            <div class="card-body">
-                <h5 class="card-title">Edit/Delete Coffee</h5>
-                <p class="card-text">Form to edit/delete a coffee.</p>
-            </div>
-        </div>
-    </div>
+<div class="w-75 p-5 mx-auto">
+	<div class="container">
+		<div class="col">
+			<div class="row d-flex flex-row justify-content-evenly">
+				<div class="card border-primary m-3" style="max-width: 18rem;">
+					<a class="nav-link" uiSref="coffeeList">
+						<div class="card-body text-primary">
+							<h5 class="card-title">Coffee List</h5>
+							<p class="card-text">Coffee inventory displayed in a grid list.</p>
+						</div>
+					</a>
+				</div>
+				<div class="card border-primary m-3" style="max-width: 18rem;">
+					<a class="nav-link" uiSref="coffeeForm">
+						<div class="card-body text-primary">
+							<h5 class="card-title">Add Coffee Form</h5>
+							<p class="card-text">Form to add additional coffee to inventory.</p>
+						</div>
+					</a>
+				</div>
+				<div class="card border-primary m-3" style="max-width: 18rem; cursor: pointer;">
+					<a class="nav-link" uiSref="coffeeEditDelete">
+						<div class="card-body text-primary">
+							<h5 class="card-title">Edit Coffee</h5>
+							<p class="card-text">Form to edit an existing coffee details.</p>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

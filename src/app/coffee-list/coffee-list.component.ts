@@ -4,12 +4,12 @@ import { HttpService } from '../service/http.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
 	selector: 'app-coffee-list',
 	standalone: true,
-	imports: [CommonModule, FormsModule, NgxPaginationModule],
+	imports: [CommonModule, FormsModule, NgxPaginationModule, NgxSpinnerComponent],
 	templateUrl: './coffee-list.component.html',
 	styleUrl: './coffee-list.component.css',
 })

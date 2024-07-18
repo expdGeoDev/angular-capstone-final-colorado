@@ -1,26 +1,32 @@
-<div class="form-group text-primary p-3">
-	<label class="text-primary" for="coffeeSearch">Search Roaster:</label>
-	<input type="text" class="form-control d-block" id="coffeeSearch" aria-describedby="coffeeSearchHelp"
-		placeholder="Search for roaster..." [(ngModel)]="searchText" />
-</div>
-<div class="form-group text-primary p-3">
-	<label for="roast">Select Roast Type:</label>
-	<select class="form-control" id="roast" [(ngModel)]="roast">
-		<option value="all">All</option>
-		<option value="medium">Medium</option>
-		<option value="dark">Dark</option>
-	</select>
-</div>
-<button (click)="applySearch()" class="btn btn-primary mt-3 float-end me-3">Search</button>
 
-@if(getPaginatedResult().length === 0) {
-<div>
-	<h1>NO DATA</h1>
-</div>
-} @else {
 <div class="w-75 p-5 mx-auto">
-	<table class="table table-striped">
-		<thead>
+	<div class="form-group text-primary p-3">
+		<label class="text-primary" for="coffeeSearch">Search Roaster:</label>
+		<input type="text" class="form-control d-block" id="coffeeSearch" aria-describedby="coffeeSearchHelp"
+					 placeholder="Search for roaster..." [(ngModel)]="searchText" />
+	</div>
+	<div class="form-group text-primary p-3">
+		<label for="roast">Select Roast Type:</label>
+		<select class="form-control" id="roast" [(ngModel)]="roast">
+			<option value="all">All</option>
+			<option value="medium">Medium</option>
+			<option value="dark">Dark</option>
+		</select>
+	</div>
+	<button (click)="applySearch()" class="btn btn-primary mt-3 float-end me-3">Search</button>
+</div>
+@if (getPaginatedResult().length === 0) {
+	<div>
+		<div class="w-75 p-5 mx-auto">
+			<ngx-spinner type="ball-spin">
+				<p style="color: white">Loading Data...</p>
+			</ngx-spinner>
+		</div>
+	</div>
+} @else {
+	<div class="w-75 p-5 mx-auto">
+		<table class="table table-striped">
+			<thead>
 			<tr>
 				<th (click)="sortTable('id')" scope="col">Id <span [ngClass]="getSortClass('id')"></span></th>
 				<th (click)="sortTable('active')" scope="col">Active <span [ngClass]="getSortClass('active')"></span>
@@ -31,29 +37,29 @@
 				<th (click)="sortTable('format')" scope="col">Format <span [ngClass]="getSortClass('format')"></span>
 				</th>
 				<th (click)="sortTable('singleOrigin')" scope="col">SingleOrigin <span
-						[ngClass]="getSortClass('singleOrigin')" style="align-items: center;"></span></th>
+					[ngClass]="getSortClass('singleOrigin')" style="align-items: center;"></span></th>
 				<th scope="col">Quick Actions<span></span></th>
 			</tr>
-		</thead>
-		<tbody>
+			</thead>
+			<tbody>
 			<tr *ngFor="let coffee of filteredList | paginate: { itemsPerPage: limit, currentPage: currentPage }">
-				<td scope="row">{{coffee.id}}</td>
-				<td scope="row">{{coffee.active}}</td>
-				<td scope="row"><a style="color: blue; cursor: pointer;">{{coffee.roaster}}</a></td>
-				<td scope="row">{{coffee.roast}}</td>
-				<td scope="row">{{coffee.format}}</td>
-				<td scope="row">{{coffee.singleOrigin}}</td>
+				<td scope="row">{{ coffee.id }}</td>
+				<td scope="row">{{ coffee.active }}</td>
+				<td scope="row"><a style="color: blue; cursor: pointer;">{{ coffee.roaster }}</a></td>
+				<td scope="row">{{ coffee.roast }}</td>
+				<td scope="row">{{ coffee.format }}</td>
+				<td scope="row">{{ coffee.singleOrigin }}</td>
 				<td scope="row">
 					<i class="bi bi-trash p-2 m-1" data-bs-toggle="tooltip" data-bs-title="Default tooltip"
-						style="cursor: pointer;" (click)="onDelete(coffee)"></i>
+						 style="cursor: pointer;" (click)="onDelete(coffee)"></i>
 					<i class="bi bi-pencil p-2 m-1" data-bs-toggle="tooltip" data-bs-title="Default tooltip"
-						style="cursor: pointer;"></i>
+						 style="cursor: pointer;"></i>
 				</td>
 			</tr>
-		</tbody>
-	</table>
-</div>
-<div class="d-flex justify-content-center flex-grow-1">
-	<pagination-controls class="custom-pagination" (pageChange)="changePage($event)"></pagination-controls>
-</div>
+			</tbody>
+		</table>
+	</div>
+	<div class="d-flex justify-content-center flex-grow-1">
+		<pagination-controls class="custom-pagination" (pageChange)="changePage($event)"></pagination-controls>
+	</div>
 }
