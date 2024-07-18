@@ -1,7 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpService } from './http.service';
-import { mockCoffee1, mockCoffee2, mockCoffeeArray, mockCoffeeArrayByRoaster } from '../mocks/mockCoffee';
+import {
+	mockCoffee1,
+	mockCoffee2,
+	mockCoffeeArray,
+	mockCoffeeArrayByRoaster,
+} from '../mocks/mockCoffee';
 
 describe('HttpService', () => {
 	let service: HttpService;
@@ -11,7 +16,7 @@ describe('HttpService', () => {
 	beforeEach(() => {
 		TestBed.configureTestingModule({
 			imports: [HttpClientTestingModule],
-			providers: [HttpService]
+			providers: [HttpService],
 		});
 		service = TestBed.inject(HttpService);
 		httpController = TestBed.inject(HttpTestingController);
@@ -53,7 +58,7 @@ describe('HttpService', () => {
 		req.flush(mockCoffee1);
 	});
 
-	it('should call postCofee and the API should return the coffee that was added', () => {
+	it('should call postCoffee and the API should return the coffee that was added', () => {
 		service.postCoffee(mockCoffee2).subscribe((data) => {
 			expect(data).toEqual(mockCoffee2);
 		});

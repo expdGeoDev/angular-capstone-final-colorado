@@ -1,23 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CoffeeEditDeleteComponent } from './coffee-edit-delete.component';
+import { CoffeeEditDelete } from './coffee-edit-delete.component';
 
-describe('CoffeeEditDeleteComponent', () => {
-  let component: CoffeeEditDeleteComponent;
-  let fixture: ComponentFixture<CoffeeEditDeleteComponent>;
+describe('CoffeeEditDelete', () => {
+	let component: CoffeeEditDelete;
+	let fixture: ComponentFixture<CoffeeEditDelete>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [CoffeeEditDeleteComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(CoffeeEditDeleteComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [CoffeeEditDelete],
+		}).compileComponents();
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+		fixture = TestBed.createComponent(CoffeeEditDelete);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
+
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });
