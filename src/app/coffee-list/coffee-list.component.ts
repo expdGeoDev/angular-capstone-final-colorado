@@ -1,15 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { CoffeeModel } from '../model/CoffeeModel';
+import { CoffeeModel, RoastType, SizeType } from '../model/CoffeeModel';
 import { HttpService } from '../service/http.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
-
+import { ModalComponent } from '../modal/modal.component';
+import { ModalService } from '../modal/modal.service';
 @Component({
 	selector: 'app-coffee-list',
 	standalone: true,
-	imports: [CommonModule, FormsModule, NgxPaginationModule, NgxSpinnerComponent],
+	imports: [
+		CommonModule,
+		FormsModule,
+		NgxPaginationModule,
+		NgxSpinnerComponent,
+		ModalComponent,
+		NgFor,
+	],
 	templateUrl: './coffee-list.component.html',
 	styleUrl: './coffee-list.component.css',
 })
@@ -22,11 +30,27 @@ export class CoffeeListComponent implements OnInit {
 	limit: number = 10;
 	currentPage: number = 1;
 	searchText: string = '';
+	coffeeSelected: CoffeeModel = {
+		id: 0,
+		active: false,
+		roaster: '',
+		size: SizeType.EIGHT,
+		roast: RoastType.BLONDE,
+		format: 'bean',
+		grind: 0,
+		origin: [],
+		singleOrigin: false,
+		tastingNotes: '',
+	};
+	roastType: string[];
 
 	constructor(
 		private coffeeService: HttpService,
-		private spinner: NgxSpinnerService
-	) {}
+		private spinner: NgxSpinnerService,
+		protected modal: ModalService
+	) {
+		this.roastType = Object.values(RoastType);
+	}
 
 	ngOnInit() {
 		// TODO: NGXSpinner is showing but not creating cool spinner
@@ -122,5 +146,10 @@ export class CoffeeListComponent implements OnInit {
 		});
 		this.filterData();
 		this.searchData();
+	}
+
+	toggleModal(coffee: CoffeeModel) {
+		this.coffeeSelected = coffee;
+		this.modal.open('modal-1');
 	}
 }
