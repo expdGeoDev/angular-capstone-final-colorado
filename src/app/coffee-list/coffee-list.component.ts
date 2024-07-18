@@ -53,14 +53,13 @@ export class CoffeeListComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		// TODO: NGXSpinner is showing but not creating cool spinner
-		// To Test we are having to comment out 'this.spinner.hide()'
 		this.spinner.show();
-		this.coffeeService.getAllCoffee().subscribe((coffeList) => {
+		this.coffeeService.getAllCoffee().subscribe(async (coffeList) => {
+			await new Promise((f) => setTimeout(f, 1000));
 			this.list = coffeList.filter((coffee) => coffee.active === true);
 			this.filteredList = [...this.list];
+			this.spinner.hide();
 		});
-		this.spinner.hide();
 	}
 
 	calculateNumberOfPage(): number {
