@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CoffeeFormComponent } from './coffee-form.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+import { UIRouterModule } from '@uirouter/angular';
 
 describe('CoffeeFormComponent', () => {
   let component: CoffeeFormComponent;
@@ -8,7 +11,7 @@ describe('CoffeeFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CoffeeFormComponent]
+      imports: [HttpClientModule, ToastrModule.forRoot(), UIRouterModule.forRoot(), CoffeeFormComponent]
     })
     .compileComponents();
 

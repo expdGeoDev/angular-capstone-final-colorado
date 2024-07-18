@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CoffeeEditDelete } from './coffee-edit-delete.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+import { UIRouterModule } from '@uirouter/angular';
 
 describe('CoffeeEditDelete', () => {
 	let component: CoffeeEditDelete;
@@ -8,7 +11,7 @@ describe('CoffeeEditDelete', () => {
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			imports: [CoffeeEditDelete],
+			imports: [HttpClientModule, ToastrModule.forRoot(), UIRouterModule.forRoot(), CoffeeEditDelete],
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(CoffeeEditDelete);
