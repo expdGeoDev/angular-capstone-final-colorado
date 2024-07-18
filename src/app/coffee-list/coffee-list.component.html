@@ -8,7 +8,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-6">
-					<label class="form-check-label text-primary m-2">Coffe Id: </label>
+					<label class="form-check-label text-primary m-2">Coffee Id: </label>
 					<span>{{coffeeSelected.id}}</span>
 				</div>
 				<div class="col-md-6">
@@ -73,21 +73,6 @@
 <!-- Ends Modal -->
 
 <!-- Filter Section -->
-<div class="form-group text-primary p-3">
-	<label class="text-primary" for="coffeeSearch">Search Roaster:</label>
-	<input type="text" class="form-control d-block" id="coffeeSearch" aria-describedby="coffeeSearchHelp"
-		placeholder="Search for roaster..." [(ngModel)]="searchText" />
-</div>
-<div class="form-group p-3 text-primary">
-	<label for="roast">Select Roast Type*:</label>
-	<select class="form-control" id="roast" [(ngModel)]="roast">
-		<option value="all">All</option>
-		<option *ngFor="let item of roastType" [value]="item">{{ item }}</option>
-	</select>
-</div>
-<button (click)="applySearch()" class="btn btn-primary mt-3 float-end me-3">Search</button>
-<!-- Filter Section -->
-
 <div class="w-75 p-5 mx-auto">
 	<div class="form-group text-primary p-3">
 		<label class="text-primary" for="coffeeSearch">Search Roaster:</label>
@@ -104,6 +89,8 @@
 	</div>
 	<button (click)="applySearch()" class="btn btn-primary mt-3 float-end me-3">Search</button>
 </div>
+<!-- Filter Section -->
+
 @if (getPaginatedResult().length === 0) {
 <div>
 	<div class="w-75 p-5 mx-auto">
