@@ -39,4 +39,31 @@ describe('ModalComponent', () => {
 		component.ngOnInit();
 		expect(document.body.appendChild).toHaveBeenCalledWith(component['element']);
 	});
+
+	it('should open the modal', () => {
+		component.open();
+		expect(component['element'].style.display).toBe('block');
+		expect(document.body.classList.contains('modal-open')).toBeTrue();
+		expect(component.isOpen).toBeTrue();
+	});
+
+	it('should close the modal', () => {
+		component.close();
+		expect(component['element'].style.display).toBe('none');
+		expect(document.body.classList.contains('modal-open')).toBeFalse();
+		expect(component.isOpen).toBeFalse();
+	});
+
+	it('should set up click listener for background click to close', () => {
+		spyOn(component, 'close');
+		component.ngOnInit();
+
+		const event = new MouseEvent('click', { bubbles: true });
+		const targetElement = document.createElement('div');
+		targetElement.className = 'modal';
+		Object.defineProperty(event, 'target', { value: targetElement, writable: false });
+
+		component['element'].dispatchEvent(event);
+		expect(component.close).toHaveBeenCalled();
+	});
 });
