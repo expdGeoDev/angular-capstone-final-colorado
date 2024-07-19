@@ -164,4 +164,14 @@ export class CoffeeListComponent implements OnInit {
 		this.coffeeSelected = coffee;
 		this.modal.open('modal-1');
 	}
+
+	clearSearch(): void {
+		this.searchText = ''; // Clear the search text
+		this.roast = 'all'; // Reset roast filter
+		this.filterData(); // Reapply filters
+		this.searchData(); // Reapply search
+		this.sortData(); // Reapply sorting
+		this.currentPage = 1; // Reset to first page
+		this.isValid = true; // Reset validation state
+	}
 }
