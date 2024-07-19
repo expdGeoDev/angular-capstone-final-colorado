@@ -77,7 +77,11 @@
 	<div class="form-group text-primary p-3">
 		<label class="text-primary" for="coffeeSearch">Search Roaster:</label>
 		<input type="text" class="form-control d-block" id="coffeeSearch" aria-describedby="coffeeSearchHelp"
-					 placeholder="Search for roaster..." [(ngModel)]="searchText" />
+					 placeholder="Search for roaster..." [(ngModel)]="searchText"/>
+		<div class="invalid-feedback d-block" *ngIf="!isValid">
+			This field
+			is invalid. Enter only letters, numbers, or whitespace.
+		</div>
 	</div>
 	<div class="form-group text-primary p-3">
 		<label for="roast">Select Roast Type:</label>
