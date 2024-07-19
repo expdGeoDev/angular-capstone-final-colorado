@@ -94,7 +94,9 @@
               "./node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.css"
             ],
+						"codeCoverage": true,
             "scripts": []
+
           }
         }
       }
