@@ -6,8 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-		"rest-server": "json-server --watch src/data/coffee-data.json --port 8100",
-    "test": "ng test"
+    "rest-server": "json-server --watch src/data/coffee-data.json --port 8100",
+    "test": "ng test --no-watch --no-progress --browsers=ChromeHeadless"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +21,9 @@
     "@uirouter/angular": "^13.0.0",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "ngx-pagination": "^6.0.3",
+    "ngx-spinner": "^17.0.0",
+    "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
