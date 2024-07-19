@@ -6,21 +6,40 @@ import { ToastrModule } from 'ngx-toastr';
 import { UIRouterModule } from '@uirouter/angular';
 
 describe('CoffeeFormComponent', () => {
-  let component: CoffeeFormComponent;
-  let fixture: ComponentFixture<CoffeeFormComponent>;
+	let component: CoffeeFormComponent;
+	let fixture: ComponentFixture<CoffeeFormComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [HttpClientModule, ToastrModule.forRoot(), UIRouterModule.forRoot(), CoffeeFormComponent]
-    })
-    .compileComponents();
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [
+				HttpClientModule,
+				ToastrModule.forRoot(),
+				UIRouterModule.forRoot(),
+				CoffeeFormComponent,
+			],
+		}).compileComponents();
 
-    fixture = TestBed.createComponent(CoffeeFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+		fixture = TestBed.createComponent(CoffeeFormComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
+
+	it('should create the coffeeform', () => {
+		component.ngOnInit();
+		expect(component.coffeeForm).toBeTruthy();
+	});
+
+	it('should reset the coffeeForm', () => {
+		component.resetForm();
+		expect(component.coffeeForm.get('grind')?.value).toBe(0);
+	});
+
+	it('should have roaster', () => {
+		const roaster = component.coffeeForm.get('roaster');
+		expect(roaster?.valid).toBeFalsy();
+	});
 });
