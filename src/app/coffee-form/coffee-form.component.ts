@@ -60,16 +60,6 @@ export class CoffeeFormComponent {
 		return this.coffeeForm.get('roaster');
 	}
 
-	getUniqueId(parts: number): string {
-		const stringArr = [];
-		for (let i = 0; i < parts; i++) {
-			// tslint:disable-next-line:no-bitwise
-			const S4 = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-			stringArr.push(S4);
-		}
-		return stringArr.join('-');
-	}
-
 	getGrindLevel(value: number): string {
 		switch (value) {
 			case 1:
@@ -87,7 +77,7 @@ export class CoffeeFormComponent {
 			case 7:
 				return 'More Refined Medium';
 			case 8:
-				return 'Kinda of Fine';
+				return 'Kind of Fine';
 			case 9:
 				return 'Fine';
 			case 10:

@@ -6,7 +6,7 @@ import { ModalService } from './modal.service';
 	standalone: true,
 	imports: [],
 	templateUrl: './modal.component.html',
-	styleUrl: './modal.component.less',
+	styleUrl: './modal.component.css',
 })
 export class ModalComponent implements OnInit, OnDestroy {
 	@Input() id?: string;
