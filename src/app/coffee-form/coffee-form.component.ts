@@ -98,8 +98,7 @@ export class CoffeeFormComponent {
 	async onSubmit() {
 		if (this.isEditCoffePage) {
 			const coffee: CoffeeModel = this.coffeeForm.value;
-			this.coffeeService.putCoffee(coffee).subscribe((response) => {
-				console.log(response);
+			this.coffeeService.putCoffee(coffee).subscribe(() => {
 				this.toaster.success(`Coffee ${coffee.roaster} updated Successfully`, 'Success', {
 					closeButton: true,
 				});
@@ -109,8 +108,7 @@ export class CoffeeFormComponent {
 		} else {
 			const coffee = this.coffeeForm.value;
 			delete coffee.id;
-			this.coffeeService.postCoffee(coffee).subscribe((response) => {
-				console.log(response);
+			this.coffeeService.postCoffee(coffee).subscribe(() => {
 				this.toaster.success('Coffee save Successfully', 'Success', { closeButton: true });
 				this.resetForm();
 				this.stateService.go('coffeeList');

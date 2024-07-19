@@ -4,12 +4,22 @@ import { CoffeeFormComponent } from './coffee-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { UIRouterModule } from '@uirouter/angular';
+import { mockCoffee1, mockCoffee3, mockCoffeeArray } from '../mocks/mockCoffee';
+import { of } from 'rxjs';
+import { HttpService } from '../service/http.service';
+import { CoffeeModel } from '../model/CoffeeModel';
 
 describe('CoffeeFormComponent', () => {
 	let component: CoffeeFormComponent;
 	let fixture: ComponentFixture<CoffeeFormComponent>;
+	let httpService: jasmine.SpyObj<HttpService>;
 
 	beforeEach(async () => {
+		httpService = jasmine.createSpyObj('HttpService', [
+			'postCoffee',
+			'getAllCoffee',
+			'getCoffeeById',
+		]);
 		await TestBed.configureTestingModule({
 			imports: [
 				HttpClientModule,
@@ -17,10 +27,12 @@ describe('CoffeeFormComponent', () => {
 				UIRouterModule.forRoot(),
 				CoffeeFormComponent,
 			],
+			providers: [{ provide: HttpService, useValue: httpService }],
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(CoffeeFormComponent);
 		component = fixture.componentInstance;
+		httpService = TestBed.inject(HttpService) as jasmine.SpyObj<HttpService>;
 		fixture.detectChanges();
 	});
 
@@ -132,5 +144,39 @@ describe('CoffeeFormComponent', () => {
 	it('should have roaster', () => {
 		const roaster = component.coffeeForm.get('roaster');
 		expect(roaster?.valid).toBeFalsy();
+	});
+
+	it('should create a new Coffee', () => {
+		httpService.getAllCoffee.and.returnValue(of(mockCoffeeArray));
+		let newCoffee = mockCoffee1;
+		newCoffee.tastingNotes = 'COFFEE FROM TEST';
+		component.coffeeForm.setValue(newCoffee);
+		component.isEditCoffePage = false;
+
+		component.onSubmit();
+
+		expect(newCoffee.tastingNotes).toEqual('COFFEE FROM TEST');
+	});
+
+	it('should update a Coffee', () => {
+		httpService.getAllCoffee.and.returnValue(of(mockCoffeeArray));
+		let newCoffee = mockCoffee3;
+		newCoffee.tastingNotes = 'COFFEE FROM TEST UPDATE';
+
+		component.coffeeForm.setValue(newCoffee);
+		component.isEditCoffePage = true;
+
+		component.onSubmit();
+
+		expect(newCoffee.tastingNotes).toEqual('COFFEE FROM TEST UPDATE');
+	});
+
+	it('should desable and reset form if ID field is empty', () => {
+		httpService.getAllCoffee.and.returnValue(of(mockCoffeeArray));
+
+		component.coffeeForm.get('id')?.setValue('');
+		component.handleIdChanges();
+
+		expect(component.coffeeForm.get('grind')?.value).toBe(0);
 	});
 });
